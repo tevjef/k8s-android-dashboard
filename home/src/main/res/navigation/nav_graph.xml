@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:app="http://schemas.android.com/apk/res-auto"
   xmlns:android="http://schemas.android.com/apk/res/android"
-  app:startDestination="@id/homeFragment">
+  app:startDestination="@id/certFragment">
 
   <fragment
-    android:id="@+id/homeFragment"
-    android:name="me.tevinjeffrey.kubernetes.home.HomeFragment"
-    android:label="HomeFragment" >
-    <deepLink app:uri="https://pandroid.com"/>
+    android:id="@+id/certFragment"
+    android:name="me.tevinjeffrey.kubernetes.home.setup.cert.CertFragment"
+    android:label="CertFragment" >
+    <deepLink app:uri="k8s://kubernetesapp/setup"/>
   </fragment>
 
 </navigation>

@@ -15,6 +15,18 @@ abstract class BaseKubernetesApp : MultiDexApplication() {
       // You should not init your app in this process.
       return
     }
+
+//    SoLoader.init(this, 0)
+//
+//    if (BuildConfig.DEBUG && SonarUtils.shouldEnableSonar(this)) {
+//      val client = AndroidSonarClient.getInstance(this)
+//
+//      val descriptorMapping = DescriptorMapping.withDefaults()
+//      client.addPlugin(InspectorSonarPlugin(this, descriptorMapping))
+//      client.addPlugin(NetworkSonarPlugin())
+//      client.start()
+//    }
+
     LeakCanary.install(this)
 
     val lumberYard = LumberYard.getInstance(this)

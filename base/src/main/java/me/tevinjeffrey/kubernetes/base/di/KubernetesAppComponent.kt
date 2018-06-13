@@ -1,7 +1,7 @@
 package me.tevinjeffrey.kubernetes.base.di
 
+import android.content.Context
 import android.view.inputmethod.InputMethodManager
-import me.tevinjeffrey.kubernetes.api.KubernetesApi
 import me.tevinjeffrey.kubernetes.base.KubernetesApp
 import me.tevinjeffrey.kubernetes.base.di.modules.ApiModule
 import me.tevinjeffrey.kubernetes.base.di.modules.DataModule
@@ -28,14 +28,14 @@ interface KubernetesAppComponent {
   fun inject(app: KubernetesApp)
 
   fun inputMethodService(): InputMethodManager
-  fun pandroidApi(): KubernetesApi
-  fun kubernetesClient(): KubernetesClient
 
-  @AccessToken fun accessToken(): StringPreference
-  @RefreshToken fun refreshToken(): StringPreference
+  @ClientCert fun clientCert(): StringPreference
+  @ClientKey fun clientKey(): StringPreference
+  @ClusterCACert fun clusterCACert(): StringPreference
 
   @Component.Builder interface Builder {
     @BindsInstance fun application(app: KubernetesApp): Builder
+    @BindsInstance fun context(context: Context): Builder
     fun apiModule(module: ApiModule): Builder
     fun appModule(module: KubernetesAppModule): Builder
     fun dataModule(module: DataModule): Builder

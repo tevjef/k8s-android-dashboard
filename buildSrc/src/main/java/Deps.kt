@@ -34,6 +34,7 @@ object Deps {
   val customtabs = "com.android.support:customtabs:$supportLibraryVersion"
   val constraintLayout = "com.android.support.constraint:constraint-layout:1.1.0-beta5"
   val multidex = "com.android.support:multidex:1.0.3"
+  val materialDesignComponents = "com.google.android.material:material:1.0.0-alpha1"
 
   // Play Services
   // https://developers.google.com/android/guides/setup
@@ -207,6 +208,7 @@ object Deps {
   val threetenabp = "com.jakewharton.threetenabp:threetenabp:1.1.0"
   val groupie = "com.xwray:groupie:2.0.3"
   val groupieKotlin = "com.xwray:groupie-kotlin-android-extensions:2.0.3"
+  val fbSonar = "com.facebook.sonar:sonar:0.0.1"
 
   // Testing
   val jUnit = "junit:junit:$junitVersion"

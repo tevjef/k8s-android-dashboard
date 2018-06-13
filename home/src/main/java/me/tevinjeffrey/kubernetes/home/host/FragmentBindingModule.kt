@@ -1,17 +1,13 @@
 package me.tevinjeffrey.kubernetes.home.host
 
-import me.tevinjeffrey.kubernetes.base.di.PerFragment
-import me.tevinjeffrey.kubernetes.home.HomeFragment
-import dagger.Binds
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
+import me.tevinjeffrey.kubernetes.base.di.PerFragment
+import me.tevinjeffrey.kubernetes.home.setup.cert.CertFragment
 
 @Module
 abstract class FragmentBindingModule {
   @PerFragment
-  @ContributesAndroidInjector(modules = [HomeFragmentModule::class])
-  abstract fun contributesHomeFragment(): HomeFragment
+  @ContributesAndroidInjector
+  abstract fun contributesCertFragment(): CertFragment
 }
-
-@Module
-abstract class HomeFragmentModule { }

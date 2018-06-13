@@ -1,8 +1,9 @@
-package me.tevinjeffrey.kubernetes.home
+package me.tevinjeffrey.kubernetes.setup.cert
 
 import com.xwray.groupie.kotlinandroidextensions.Item
 import com.xwray.groupie.kotlinandroidextensions.ViewHolder
 import kotlinx.android.synthetic.main.item_podlist.*
+import me.tevinjeffrey.kubernetes.home.R
 
 class PodListItem constructor(private val podName: String) : Item() {
 

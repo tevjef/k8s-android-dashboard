@@ -30,6 +30,7 @@ class KubernetesApp : BaseKubernetesApp(), HasActivityInjector, HasBroadcastRece
         .appModule(KubernetesAppModule(this))
         .prefModule(PrefModule(this))
         .application(this)
+        .context(this)
         .build()
     component.inject(this)
     appInjector.init()

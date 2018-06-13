@@ -19,6 +19,10 @@ dependencies {
   api Deps.kotlinStdlib
   api Deps.threetenabp
 
+  api Deps.dagger
+  kapt Deps.daggerCompiler
+  kapt Deps.daggerAndroidCompiler
+
   api 'io.fabric8:kubernetes-client:3.2.0'
   api 'io.fabric8:kubernetes-model:2.1.1'
 }

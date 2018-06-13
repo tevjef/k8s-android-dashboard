@@ -1,4 +1,4 @@
-package me.tevinjeffrey.kubernetes.api
+package me.tevinjeffrey.kubernetes.api.ssl
 
 
 import java.io.*
