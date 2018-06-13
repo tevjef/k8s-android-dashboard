@@ -1,0 +1,68 @@
+apply plugin: 'com.android.feature'
+apply from: rootProject.file('module.gradle')
+apply from: rootProject.file('config.gradle')
+
+android {
+  baseFeature true
+}
+
+dependencies {
+  application project(':app')
+
+  Deps.featureProjects.each { feature project("$it") }
+
+  api project(':api')
+
+  Deps.arch.each { api it }
+  Deps.archAP.each { kapt it }
+
+  Deps.rx.each { api it }
+  Deps.rxBindings.each { api it }
+  Deps.supportLibs.each { api it }
+
+  api Deps.dagger
+  api Deps.daggerAndroidSupport
+  kapt Deps.daggerCompiler
+  kapt Deps.daggerAndroidCompiler
+
+  api Deps.glide
+  kapt Deps.glideCompiler
+
+  api Deps.timber
+  api Deps.kotlinStdlib
+
+  api Deps.groupie
+  api Deps.groupieKotlin
+
+  alphaImplementation Deps.hockey
+  betaImplementation Deps.hockey
+  alphaApi(Deps.crashlytics) { transitive = true }
+  betaApi(Deps.crashlytics) { transitive = true }
+  releaseApi(Deps.crashlytics) { transitive = true }
+
+  debugApi Deps.multidex
+  debugApi Deps.instabug
+  debugApi Deps.chuck
+  debugApi Deps.leakCanary
+
+  alphaApi Deps.multidex
+  alphaApi Deps.instabug
+  alphaApi Deps.chuck
+  alphaApi Deps.leakCanaryNoOp
+
+  betaApi Deps.multidex
+  betaApi Deps.instabug
+  betaApi Deps.chuck
+  betaApi Deps.leakCanaryNoOp
+
+  releaseApi Deps.chuckNoOp
+  releaseApi Deps.leakCanaryNoOp
+
+  debugApi Deps.debugdrawer
+  alphaApi Deps.debugdrawer
+  betaApi Deps.debugdrawer
+  releaseApi Deps.debugdrawerNoOp
+  Deps.debugDrawerExt.each { debugApi it }
+  Deps.debugDrawerExt.each { alphaApi it }
+  Deps.debugDrawerExt.each { betaApi it }
+}

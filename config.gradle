@@ -1,0 +1,64 @@
+def buildNumber
+def version
+
+android {
+  compileSdkVersion Versions.compileSdkVersion
+
+  defaultConfig {
+    minSdkVersion Versions.minSdkVersion
+    targetSdkVersion Versions.targetSdkVersion
+
+    final def versionPropsFile = rootProject.file('version.properties')
+    if (versionPropsFile.canRead()) {
+      final Properties versionProps = new Properties()
+      versionProps.load(new FileInputStream(versionPropsFile))
+      buildNumber = versionProps['BUILD_NUMBER'].toInteger()
+      version = versionProps['VERSION']
+    }
+
+    versionCode buildNumber
+    versionName version
+
+    multiDexEnabled true
+
+    testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
+  }
+
+  sourceSets {
+    alpha {
+      java.srcDirs += ['src/debug/java/me.tevinjeffrey.kubernetes/base/drawer']
+    }
+    beta {
+      java.srcDirs += ['src/debug/java/me.tevinjeffrey.kubernetes/base/drawer',
+                       'src/alpha/java']
+    }
+  }
+
+  buildTypes {
+    debug {
+      multiDexEnabled true
+    }
+    alpha {
+      multiDexEnabled true
+    }
+    beta {
+      multiDexEnabled true
+    }
+    release {}
+  }
+
+  lintOptions {
+    textReport true
+    abortOnError false
+    textOutput 'stdout'
+    warning 'UnusedResources'
+    warning 'ResourceType'
+    warning 'InvalidPackage'
+    checkReleaseBuilds false
+  }
+
+  compileOptions {
+    sourceCompatibility JavaVersion.VERSION_1_8
+    targetCompatibility JavaVersion.VERSION_1_8
+  }
+}

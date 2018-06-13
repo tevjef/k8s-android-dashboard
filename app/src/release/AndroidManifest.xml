@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  package="me.tevinjeffrey.kubernetes">
+
+  <application>
+    <provider
+      android:name="com.crashlytics.android.CrashlyticsInitProvider"
+      android:authorities="${applicationId}.crashlyticsinitprovider"
+      android:exported="false"
+      android:initOrder="100"
+      tools:replace="android:authorities" />
+
+    <provider
+      android:name="android.arch.lifecycle.ProcessLifecycleOwnerInitializer"
+      android:authorities="${applicationId}.lifecycle-trojan"
+      android:exported="false"
+      android:multiprocess="true"
+      tools:replace="android:authorities" />
+  </application>
+</manifest>

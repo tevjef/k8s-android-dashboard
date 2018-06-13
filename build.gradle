@@ -1,0 +1,67 @@
+buildscript {
+  ext.kotlinVersion = "1.2.41"
+  repositories {
+    google()
+    jcenter()
+    maven { url 'https://maven.fabric.io/public' }
+    maven { url "https://jitpack.io" }
+  }
+  dependencies {
+    classpath "com.android.tools.build:gradle:${Versions.gradleVersion}"
+    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlinVersion}"
+    classpath "android.arch.navigation:navigation-safe-args-gradle-plugin:${Versions.archNavigationVersion}"
+    classpath 'io.fabric.tools:gradle:1.25.4'
+    classpath 'com.github.prolificinteractive:pandroid-gradle-plugin:0.4.2'
+  }
+}
+
+plugins {
+  id 'org.sonarqube' version '2.6.2'
+  id 'io.gitlab.arturbosch.detekt' version '1.0.0.RC6-4'
+  id 'com.github.ben-manes.versions' version '0.17.0'
+}
+
+apply plugin: 'pandroid'
+alphaBuild.dependsOn ':app:assembleAlpha'
+betaBuild.dependsOn ':app:assembleBeta'
+releaseBuild.dependsOn ':app:assembleRelease'
+
+task wrapper(type: Wrapper) {
+  gradleVersion = '4.7'
+}
+
+allprojects {
+  repositories {
+    google()
+    jcenter()
+    mavenCentral()
+    maven { url "https://jitpack.io" }
+    maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
+  }
+}
+
+task clean(type: Delete) {
+  delete rootProject.buildDir
+  delete 'ci'
+}
+
+detekt {
+  version = '1.0.0.RC5-5'
+  profile("main") {
+    config = "$rootDir/pandroid/detekt.yml"
+  }
+}
+
+task mockitoExtensions {
+  doFirst {
+    rootProject.subprojects.each {
+      def path = "${it.projectDir}/src/test/resources/mockito-extensions/org.mockito.plugins.MockMaker"
+      def mockMakerFile = new File(path)
+      mockMakerFile.parentFile.mkdirs()
+      mockMakerFile.createNewFile()
+      mockMakerFile.write("mock-maker-inline")
+    }
+  }
+}
+
+task('test').dependsOn mockitoExtensions

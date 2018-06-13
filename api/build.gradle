@@ -1,0 +1,24 @@
+apply plugin: 'com.android.library'
+apply from: rootProject.file('module.gradle')
+
+android {
+  buildTypes {
+    release {}
+    debug {}
+    alpha {}
+    beta {}
+  }
+}
+
+dependencies {
+  Deps.api.each { api it }
+  Deps.rx.each { api it }
+
+  api Deps.patrons
+  api Deps.timber
+  api Deps.kotlinStdlib
+  api Deps.threetenabp
+
+  api 'io.fabric8:kubernetes-client:3.2.0'
+  api 'io.fabric8:kubernetes-model:2.1.1'
+}

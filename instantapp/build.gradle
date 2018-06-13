@@ -1,0 +1,8 @@
+apply plugin: 'com.android.instantapp'
+apply from: rootProject.file('config.gradle')
+
+dependencies {
+  implementation project(':base')
+
+  Deps.featureProjects.each { implementation project("$it") }
+}

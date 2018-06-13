@@ -1,0 +1,108 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'androidx.navigation.safeargs'
+apply from: rootProject.file('config.gradle')
+
+android {
+  defaultConfig {
+    applicationId 'me.tevinjeffrey.kubernetes.app'
+  }
+
+  signingConfigs {
+    debug {
+      if (rootProject.file('debug.properties').exists()) {
+        final def props = new Properties()
+        props.load(new FileInputStream(rootProject.file('debug.properties')))
+
+        storeFile file(props['DEBUG_STORE_FILE'])
+        storePassword props['DEBUG_STORE_PASSWORD']
+        keyAlias = props['DEBUG_KEY_ALIAS']
+        keyPassword props['DEBUG_KEY_PASSWORD']
+      } else {
+        throw new GradleException("Could not read debug.properties!")
+      }
+    }
+  }
+
+  buildTypes {
+    debug {
+      applicationIdSuffix '.debug'
+
+      minifyEnabled false
+      debuggable true
+      multiDexEnabled true
+
+      //Disable PNG Crunching for faster build times
+      aaptOptions {
+        cruncherEnabled false
+      }
+
+      signingConfig signingConfigs.debug
+    }
+
+    alpha {
+      initWith debug
+      applicationIdSuffix '.alpha'
+      manifestPlaceholders += [HOCKEYAPP_APP_ID: HOCKEYAPP_APP_ID_ALPHA]
+    }
+
+    beta {
+      initWith debug
+      applicationIdSuffix '.beta'
+      manifestPlaceholders += [HOCKEYAPP_APP_ID: HOCKEYAPP_APP_ID_BETA]
+    }
+
+    release {
+      minifyEnabled true
+      shrinkResources true
+      zipAlignEnabled true
+      multiDexEnabled false
+
+      // Default proguard files
+      proguardFile 'proguard-rules.pro'
+      proguardFile getDefaultProguardFile('proguard-android.txt')
+      // STOPSHIP: do not sign with debug config
+      signingConfig signingConfigs.debug
+      signingConfig signingConfigs.debug
+    }
+  }
+
+  lintOptions {
+    textReport true
+    abortOnError false
+    textOutput 'stdout'
+    warning 'UnusedResources'
+    warning 'ResourceType'
+    warning 'InvalidPackage'
+  }
+
+  compileOptions {
+    sourceCompatibility JavaVersion.VERSION_1_8
+    targetCompatibility JavaVersion.VERSION_1_8
+  }
+
+  packagingOptions {
+    exclude 'LICENSE.txt'
+    exclude 'META-INF/ASL2.0'
+    exclude 'META-INF/LICENSE'
+    exclude 'META-INF/NOTICE'
+    exclude 'META-INF/LICENSE.txt'
+    exclude 'META-INF/NOTICE.txt'
+    exclude 'META-INF/rxjava.properties'
+    exclude 'META-INF/services/javax.annotation.processing.Processor'
+  }
+
+  dexOptions {
+    jumboMode true
+    dexInProcess true
+    preDexLibraries true
+    javaMaxHeapSize "4g"
+  }
+}
+
+dependencies {
+  implementation project(':base')
+
+  Deps.featureProjects.each { implementation project("$it") }
+}
+

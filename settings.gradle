@@ -1,0 +1,6 @@
+include ':auth'
+include ':app'
+include ':base'
+include ':home'
+include ':instantapp'
+include ':api'

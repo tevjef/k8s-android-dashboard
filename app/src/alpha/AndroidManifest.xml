@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+  package="me.tevinjeffrey.kubernetes">
+  <application>
+    <meta-data
+      android:name="net.hockeyapp.android.appIdentifier"
+      android:value="${HOCKEYAPP_APP_ID}" />
+  </application>
+</manifest>

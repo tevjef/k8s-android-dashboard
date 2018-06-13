@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="scheme">https</string>
+  <string name="host">pandroid.com</string>
+
+  <string name="path_home">/home</string>
+  <string name="path_login">/login</string>
+</resources>

@@ -1,0 +1,29 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  package="me.tevinjeffrey.kubernetes.base">
+
+  <uses-permission android:name="android.permission.INTERNET"/>
+
+  <application
+      android:name="me.tevinjeffrey.kubernetes.base.KubernetesApp"
+      android:allowBackup="true"
+      android:icon="@mipmap/ic_launcher"
+      android:label="@string/app_name"
+      android:roundIcon="@mipmap/ic_launcher_round"
+      android:supportsRtl="true"
+      android:theme="@style/AppTheme"
+      >
+    <provider
+      android:name="androidx.work.impl.WorkManagerInitializer"
+      android:authorities="${applicationId}.workmanager-init"
+      android:exported="false"
+      android:multiprocess="true"
+      tools:replace="android:authorities"/>
+    <meta-data
+        android:name="aia-compat-api-min-version"
+        android:value="23"
+        />
+
+    <activity android:name="me.tevinjeffrey.kubernetes.base.drawer.DebugActivity"/>
+  </application>
+</manifest>
