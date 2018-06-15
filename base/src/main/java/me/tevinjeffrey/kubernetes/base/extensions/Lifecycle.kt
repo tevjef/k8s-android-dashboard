@@ -1,7 +1,7 @@
 package me.tevinjeffrey.kubernetes.base.extensions
 
-import android.arch.lifecycle.LifecycleOwner
 import android.view.View
+import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.NavController
 import me.tevinjeffrey.kubernetes.base.R
 import java.lang.ref.WeakReference

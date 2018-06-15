@@ -1,6 +1,6 @@
 package me.tevinjeffrey.kubernetes.base
 
-import android.support.multidex.MultiDexApplication
+import androidx.multidex.MultiDexApplication
 import com.squareup.leakcanary.LeakCanary
 import io.palaima.debugdrawer.timber.data.LumberYard
 import timber.log.Timber
@@ -16,16 +16,6 @@ abstract class BaseKubernetesApp : MultiDexApplication() {
       return
     }
 
-//    SoLoader.init(this, 0)
-//
-//    if (BuildConfig.DEBUG && SonarUtils.shouldEnableSonar(this)) {
-//      val client = AndroidSonarClient.getInstance(this)
-//
-//      val descriptorMapping = DescriptorMapping.withDefaults()
-//      client.addPlugin(InspectorSonarPlugin(this, descriptorMapping))
-//      client.addPlugin(NetworkSonarPlugin())
-//      client.start()
-//    }
 
     LeakCanary.install(this)
 

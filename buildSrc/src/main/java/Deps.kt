@@ -87,7 +87,7 @@ object Deps {
   // optional - Test helpers
   val archWorkTesting = "android.arch.work:work-testing:$archWorkVersion"
 
-  val androidKtx = "androidx.core:core-ktx:0.3"
+  val androidKtx = "androidx.core:core-ktx:1.0.0-alpha3"
 
   val arch = listOf(
       archEx,
@@ -97,9 +97,10 @@ object Deps {
       archNavigation,
       archRoomRuntime,
       archPagingRuntime,
-      archPagingRxJava,
-      archWorkRuntime,
-      archWorkFirebase
+      archPagingRxJava
+// https://issuetracker.google.com/u/1/issues/109962764
+//      archWorkRuntime,
+//      archWorkFirebase
   ) + listOf(
       autoDispose,
       androidKtx
@@ -255,11 +256,11 @@ object Deps {
       gridLayout,
       constraintLayout,
       customtabs,
-      design,
       multidex,
       recyclerviewV7,
       supportAnnotations,
-      supportV4
+      supportV4,
+      materialDesignComponents
   )
 
   val firebase = listOf(

@@ -1,6 +1,6 @@
 package me.tevinjeffrey.kubernetes.home.host
 
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import me.tevinjeffrey.kubernetes.base.support.BaseActivity
 import me.tevinjeffrey.kubernetes.base.Router

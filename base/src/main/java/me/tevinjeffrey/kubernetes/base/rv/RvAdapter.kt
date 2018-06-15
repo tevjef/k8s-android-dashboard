@@ -1,9 +1,8 @@
 package me.tevinjeffrey.kubernetes.base.rv
 
 import android.os.Handler
-import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.RecyclerView.ViewHolder
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
 
 /**
  * [RvAdapter] is a generic implementation of [RecyclerView.Adapter] that contains and helper
@@ -13,22 +12,22 @@ import android.view.ViewGroup
  */
 open class RvAdapter<E : RvItem> : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-  protected val delegates: MutableMap<Int, RvDelegate<E, ViewHolder>> = HashMap()
+  protected val delegates: MutableMap<Int, RvDelegate<E, RecyclerView.ViewHolder>> = HashMap()
   protected val items: MutableList<E> = ArrayList()
 
-  override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+  override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
     val delegate = delegates[viewType]
         ?: throw IllegalStateException("cant find delegate for view type #" + viewType)
     return delegate.create(parent)
   }
 
-  override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+  override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
     val adapterPosition = holder.adapterPosition
     val viewType = getItemViewType(adapterPosition)
     delegates[viewType]?.bind(getItemAt(adapterPosition), holder)
   }
 
-  override fun onBindViewHolder(holder: ViewHolder, position: Int, payloads: List<Any>) {
+  override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int, payloads: List<Any>) {
     val adapterPosition = holder.adapterPosition
     val viewType = getItemViewType(adapterPosition)
     delegates[viewType]?.bind(getItemAt(adapterPosition), holder, payloads)

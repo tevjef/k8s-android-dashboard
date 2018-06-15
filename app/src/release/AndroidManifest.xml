@@ -12,7 +12,7 @@
       tools:replace="android:authorities" />
 
     <provider
-      android:name="android.arch.lifecycle.ProcessLifecycleOwnerInitializer"
+      android:name="androidx.lifecycle.ProcessLifecycleOwnerInitializer"
       android:authorities="${applicationId}.lifecycle-trojan"
       android:exported="false"
       android:multiprocess="true"

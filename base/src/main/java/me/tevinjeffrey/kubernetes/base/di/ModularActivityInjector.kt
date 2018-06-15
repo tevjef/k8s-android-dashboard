@@ -30,6 +30,7 @@ class ModularActivityInjector @Inject constructor(
     @Suppress("UNCHECKED_CAST")
     val builder = map[clazz]?.invoke(applicationComponent) as AndroidInjector.Builder<Activity>
     builder.create(instance.cast())?.inject(instance.cast())
+    map.remove(clazz)
   }
 
   private fun Activity?.activityClass(): Class<out Activity>? = this?.javaClass

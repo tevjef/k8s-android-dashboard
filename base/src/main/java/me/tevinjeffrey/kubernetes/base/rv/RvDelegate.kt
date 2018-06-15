@@ -1,10 +1,10 @@
 package me.tevinjeffrey.kubernetes.base.rv
 
-import android.support.annotation.LayoutRes
-import android.support.v7.widget.RecyclerView.ViewHolder
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.LayoutRes
+import androidx.recyclerview.widget.RecyclerView
 
 /**
  * [RvDelegate] is a generic implementation of [RecyclerView.ViewHolder] that has the type of
@@ -12,8 +12,9 @@ import android.view.ViewGroup
  * familiar as they do map directly to [RecyclerView.Adapter]'s [RecyclerView.Adapter.onCreateViewHolder] and
  * [RecyclerView.Adapter.onBindViewHolder] methods respectively.
  */
-interface RvDelegate<in E, V : ViewHolder> {
-  @LayoutRes fun layoutId(): Int
+interface RvDelegate<in E, V : RecyclerView.ViewHolder> {
+  @LayoutRes
+  fun layoutId(): Int
 
   fun bind(item: E, holder: V)
   fun bind(item: E, holder: V, payloads: List<Any>) {

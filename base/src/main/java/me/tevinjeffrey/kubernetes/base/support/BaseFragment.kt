@@ -1,9 +1,10 @@
 package me.tevinjeffrey.kubernetes.base.support
 
-import android.arch.lifecycle.*
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import me.tevinjeffrey.kubernetes.base.R
 import me.tevinjeffrey.kubernetes.base.extensions.getViewModel
 import timber.log.Timber

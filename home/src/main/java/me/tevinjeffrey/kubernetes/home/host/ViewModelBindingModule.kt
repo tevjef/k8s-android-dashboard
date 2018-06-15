@@ -1,13 +1,13 @@
 package me.tevinjeffrey.kubernetes.home.host
 
-import android.arch.lifecycle.ViewModel
-import android.arch.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import me.tevinjeffrey.kubernetes.base.di.ViewModelFactory
 import me.tevinjeffrey.kubernetes.base.di.ViewModelKey
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
-import me.tevinjeffrey.kubernetes.home.setup.cert.CertViewModel
+import me.tevinjeffrey.kubernetes.home.settings.SettingsViewModel
 
 @Module
 abstract class ViewModelBindingModule {
@@ -17,6 +17,6 @@ abstract class ViewModelBindingModule {
 
   @Binds
   @IntoMap
-  @ViewModelKey(CertViewModel::class)
-  abstract fun homeViewModel(viewModel: CertViewModel): ViewModel
+  @ViewModelKey(SettingsViewModel::class)
+  abstract fun settingsViewModel(viewModel: SettingsViewModel): ViewModel
 }

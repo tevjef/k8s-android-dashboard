@@ -25,8 +25,8 @@ dependencies {
   kapt Deps.daggerCompiler
   kapt Deps.daggerAndroidCompiler
 
-  api Deps.glide
-  kapt Deps.glideCompiler
+//  api Deps.glide
+//  kapt Deps.glideCompiler
 
   api Deps.timber
   api Deps.kotlinStdlib
@@ -65,5 +65,4 @@ dependencies {
   Deps.debugDrawerExt.each { debugApi it }
   Deps.debugDrawerExt.each { alphaApi it }
   Deps.debugDrawerExt.each { betaApi it }
-
 }

@@ -1,7 +1,7 @@
 package me.tevinjeffrey.kubernetes.base.extensions
 
-import android.arch.lifecycle.Lifecycle
 import android.view.View
+import androidx.lifecycle.Lifecycle
 import com.jakewharton.rxbinding2.view.clicks
 import com.uber.autodispose.AutoDispose
 import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider
@@ -49,8 +49,8 @@ fun View.clicksWithThrottle(block: () -> Unit) {
   this.clicks()
       .compose(withThrottle())
       .observeOn(AndroidSchedulers.mainThread())
-      .`as`(AutoDispose.autoDisposable(
-          AndroidLifecycleScopeProvider.from(this.findLifecycleOwner(), Lifecycle.Event.ON_DESTROY))
-      )
+//      .`as`(AutoDispose.autoDisposable(
+//          AndroidLifecycleScopeProvider.from(this.findLifecycleOwner(), Lifecycle.Event.ON_DESTROY))
+//      )
       .subscribe({block.invoke()}, Timber::e)
 }

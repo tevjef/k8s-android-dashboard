@@ -1,9 +1,9 @@
 package me.tevinjeffrey.kubernetes.base.extensions
 
 import android.app.Activity
-import android.app.Fragment
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import androidx.fragment.app.Fragment
 
 fun View.showKeyboard(imm: InputMethodManager) {
   requestFocus()
@@ -20,7 +20,7 @@ fun Activity.hideKeyboard() {
 }
 
 fun Fragment.hideKeyboard() {
-  activity.hideKeyboard()
+  activity!!.hideKeyboard()
 }
 
 fun View.hideKeyboard(imm: InputMethodManager) {

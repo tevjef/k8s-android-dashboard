@@ -1,8 +1,8 @@
 package me.tevinjeffrey.kubernetes.base.extensions
 
-import android.arch.lifecycle.*
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentActivity
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.*
 import me.tevinjeffrey.kubernetes.base.support.ViewLifecycleFragment
 
 inline fun <reified T : ViewModel> FragmentActivity.getViewModel(viewModelFactory: ViewModelProvider.Factory): T {

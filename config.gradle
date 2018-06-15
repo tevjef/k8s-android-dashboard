@@ -2,6 +2,8 @@ def buildNumber
 def version
 
 android {
+  useLibrary 'org.apache.http.legacy'
+
   compileSdkVersion Versions.compileSdkVersion
 
   defaultConfig {

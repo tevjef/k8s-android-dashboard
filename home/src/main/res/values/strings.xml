@@ -3,4 +3,10 @@
     <string name="certificates">Certificates</string>
     <string name="locate">locate</string>
     <string name="client_certificates">Client Certificates</string>
+    <string name="endpoint">Endpoint</string>
+    <string name="master_url">Master Url</string>
+    <string name="cluster_ca_certificate">Cluster CA Certificate</string>
+    <string name="client_private_key">Client Private Key</string>
+    <string name="client_certificate">Client Certificate</string>
+    <string name="not_set">Not set</string>
 </resources>

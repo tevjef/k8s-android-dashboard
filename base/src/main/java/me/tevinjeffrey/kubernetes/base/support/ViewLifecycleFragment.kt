@@ -1,12 +1,12 @@
 package me.tevinjeffrey.kubernetes.base.support
 
-import android.arch.lifecycle.Lifecycle
-import android.arch.lifecycle.Lifecycle.Event
-import android.arch.lifecycle.LifecycleOwner
-import android.arch.lifecycle.LifecycleRegistry
 import android.os.Bundle
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 import android.view.View
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.Lifecycle.Event.*
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LifecycleRegistry
 
 /**
  * Fragment providing separate lifecycle owners for each created view hierarchy.
@@ -34,31 +34,31 @@ open class ViewLifecycleFragment : Fragment() {
   }
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-    viewLifecycleOwner?.lifecycle?.handleLifecycleEvent(Event.ON_CREATE)
+    viewLifecycleOwner?.lifecycle?.handleLifecycleEvent(ON_CREATE)
   }
 
   override fun onStart() {
     super.onStart()
-    viewLifecycleOwner?.lifecycle?.handleLifecycleEvent(Event.ON_START)
+    viewLifecycleOwner?.lifecycle?.handleLifecycleEvent(ON_START)
   }
 
   override fun onResume() {
     super.onResume()
-    viewLifecycleOwner?.lifecycle?.handleLifecycleEvent(Event.ON_RESUME)
+    viewLifecycleOwner?.lifecycle?.handleLifecycleEvent(ON_RESUME)
   }
 
   override fun onPause() {
-    viewLifecycleOwner?.lifecycle?.handleLifecycleEvent(Event.ON_PAUSE)
+    viewLifecycleOwner?.lifecycle?.handleLifecycleEvent(ON_PAUSE)
     super.onPause()
   }
 
   override fun onStop() {
-    viewLifecycleOwner?.lifecycle?.handleLifecycleEvent(Event.ON_STOP)
+    viewLifecycleOwner?.lifecycle?.handleLifecycleEvent(ON_STOP)
     super.onStop()
   }
 
   override fun onDestroyView() {
-    viewLifecycleOwner?.lifecycle?.handleLifecycleEvent(Event.ON_DESTROY)
+    viewLifecycleOwner?.lifecycle?.handleLifecycleEvent(ON_DESTROY)
     viewLifecycleOwner = null
     super.onDestroyView()
   }

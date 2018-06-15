@@ -2,9 +2,9 @@ package me.tevinjeffrey.kubernetes.base.di
 
 import android.app.Activity
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentActivity
-import android.support.v4.app.FragmentManager
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentManager
 import me.tevinjeffrey.kubernetes.base.KubernetesApp
 import dagger.android.AndroidInjection
 import dagger.android.support.AndroidSupportInjection
@@ -32,8 +32,8 @@ class AppInjector @Inject constructor(val app: KubernetesApp) {
 
       activity.supportFragmentManager.registerFragmentLifecycleCallbacks(
           object : FragmentManager.FragmentLifecycleCallbacks() {
-            override fun onFragmentCreated(fm: FragmentManager?,
-                                           fragment: Fragment?,
+            override fun onFragmentCreated(fm: FragmentManager,
+                                           fragment: Fragment,
                                            savedInstanceState: Bundle?) {
               handleFragment(fragment)
             }

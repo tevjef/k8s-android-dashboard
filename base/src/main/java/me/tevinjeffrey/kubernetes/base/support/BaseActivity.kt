@@ -1,9 +1,9 @@
 package me.tevinjeffrey.kubernetes.base.support
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.view.KeyEvent
 import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
 import me.tevinjeffrey.kubernetes.base.KeyUpListener
 import me.tevinjeffrey.kubernetes.base.KubernetesApp
 import me.tevinjeffrey.kubernetes.base.drawer.DebugKeyUpListener

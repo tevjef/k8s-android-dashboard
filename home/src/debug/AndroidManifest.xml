@@ -6,7 +6,7 @@
 
   <application>
     <provider
-      android:name="android.arch.lifecycle.ProcessLifecycleOwnerInitializer"
+      android:name="androidx.lifecycle.ProcessLifecycleOwnerInitializer"
       android:authorities="${applicationId}.lifecycle-trojan"
       android:exported="false"
       android:multiprocess="true"
@@ -37,13 +37,13 @@
       android:authorities="me.tevinjeffrey.kubernetes.base.test.chuck.provider"
       android:exported="false"
       tools:replace="android:authorities" />
-
-    <provider
+      <!--https://issuetracker.google.com/u/1/issues/109962764-->
+   <!-- <provider
       android:name="androidx.work.impl.WorkManagerInitializer"
       android:authorities="${applicationId}.workmanager-init"
       android:exported="false"
       android:multiprocess="true"
-      tools:replace="android:authorities"/>
+      tools:replace="android:authorities"/>-->
   </application>
 
 </manifest>
