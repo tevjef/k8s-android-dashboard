@@ -34,6 +34,8 @@ dependencies {
   api Deps.groupie
   api Deps.groupieKotlin
 
+  api Deps.materialDialogs
+
   alphaImplementation Deps.hockey
   betaImplementation Deps.hockey
   alphaApi(Deps.crashlytics) { transitive = true }

@@ -22,10 +22,6 @@ abstract class BaseFragment : ViewLifecycleFragment() {
       savedInstanceState: Bundle?) = inflater.inflate(layoutId(), container, false)
       .apply { this.setTag(R.id.fragment_lifecycle_tag, viewLifecycleOwner) }
 
-  open fun onModelEvent(model: Any) {
-    Timber.d("onModelEvent --> ${model}")
-  }
-
   inline fun <reified T : ViewModel> viewModel(activityScoped: Boolean = false): T  {
     return getViewModel(factory, activityScoped)
   }

@@ -9,4 +9,11 @@
     <string name="client_private_key">Client Private Key</string>
     <string name="client_certificate">Client Certificate</string>
     <string name="not_set">Not set</string>
+    <string name="proxy_url">Proxy Url</string>
+    <string name="proxy_port">Proxy Port</string>
+    <string name="master_url_title">Kubernetes Master URL</string>
+    <string name="hint_master_url">https://k8s.master.local:6443</string>
+    <string name="hint_proxy_url">http://localhost:8001</string>
+    <string name="hint_proxy_port">8001</string>
+    <string name="settings">Settings</string>
 </resources>

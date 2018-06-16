@@ -1,68 +1,87 @@
 package me.tevinjeffrey.kubernetes.home.settings
 
-import android.content.Context
 import android.net.Uri
 import androidx.lifecycle.MutableLiveData
+import com.prolificinteractive.patrons.BooleanPreference
+import com.prolificinteractive.patrons.OnPreferenceChangeListener
 import com.prolificinteractive.patrons.StringPreference
 import io.reactivex.Maybe
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import me.tevinjeffrey.kubernetes.base.di.AllowInsecure
 import me.tevinjeffrey.kubernetes.base.di.ClientCert
 import me.tevinjeffrey.kubernetes.base.di.ClientKey
 import me.tevinjeffrey.kubernetes.base.di.ClusterCACert
 import me.tevinjeffrey.kubernetes.base.extensions.plusAssign
 import me.tevinjeffrey.kubernetes.base.support.BaseViewModel
+import me.tevinjeffrey.kubernetes.base.support.FileOpener
 import me.tevinjeffrey.kubernetes.base.support.SingleLiveEvent
-import okio.Okio
 import java.io.File
 import java.lang.IllegalStateException
 import javax.inject.Inject
 
-class SettingsViewModel @Inject constructor(
+class CertViewModel @Inject constructor(
+    private val fileOpener: FileOpener,
     @ClientCert private val clientCert: StringPreference,
     @ClientKey private val clientKey: StringPreference,
-    @ClusterCACert private val clusterCACert: StringPreference
+    @ClusterCACert private val clusterCACert: StringPreference,
+    @AllowInsecure private val allowInsecure: BooleanPreference
 ) : BaseViewModel() {
 
   val clientCertResult: MutableLiveData<FileInfo> = MutableLiveData()
   val clientKeyResult: MutableLiveData<FileInfo> = MutableLiveData()
   val clusterCACertResult: MutableLiveData<FileInfo> = MutableLiveData()
+  val allowInsecureResult: MutableLiveData<Boolean> = MutableLiveData()
 
   val error: SingleLiveEvent<Throwable> = SingleLiveEvent()
 
-  fun loadData() {
+  init {
+    clientCert.registerChangeListener(OnPreferenceChangeListener {
+      clientCertResult.value = getFileInfo(it)
+    })
+    clientKey.registerChangeListener(OnPreferenceChangeListener {
+      clientKeyResult.value = getFileInfo(it)
+    })
+    clusterCACert.registerChangeListener(OnPreferenceChangeListener {
+      clusterCACertResult.value = getFileInfo(it)
+    })
+    allowInsecure.registerChangeListener(OnPreferenceChangeListener {
+      allowInsecureResult.value = it
+    })
     clientCertResult.value = getFileInfo(clientCert.get())
     clientKeyResult.value = getFileInfo(clientKey.get())
     clusterCACertResult.value = getFileInfo(clusterCACert.get())
+    allowInsecureResult.value = allowInsecure.get()
   }
 
-  fun updateClientCert(context: Context, uri: Uri) {
-    disposable += findFile(context, uri)
+  fun updateClientCert(uri: Uri) {
+    disposable += findFile(uri)
         .subscribe({
           clientCert.set(uri.path)
-          clientCertResult.value = it
         }, { error.value = it })
   }
 
-  fun updateClientKey(context: Context, uri: Uri) {
-    disposable += findFile(context, uri)
+  fun updateClientKey(uri: Uri) {
+    disposable += findFile(uri)
         .subscribe({
           clientKey.set(uri.path)
-          clientKeyResult.value = it
         }, { error.value = it })
   }
 
-  fun updateClusterCa(context: Context, uri: Uri) {
-    disposable += findFile(context, uri)
+  fun updateClusterCa(uri: Uri) {
+    disposable += findFile(uri)
         .subscribe({
           clusterCACert.set(uri.path)
-          clusterCACertResult.value = it
         }, { error.value = it })
   }
 
-  private fun findFile(context: Context, uri: Uri): Maybe<FileInfo> {
+  fun updateAllowInsecure(b: Boolean) {
+    allowInsecure.set(b)
+  }
+
+  private fun findFile(uri: Uri): Maybe<FileInfo> {
     return Maybe.create<FileInfo> {
-      val source = Okio.buffer(Okio.source(context.contentResolver.openInputStream(uri)))
+      val source = fileOpener.openFile(uri)
       val isCert = source.readUtf8Line().orEmpty().contains("-----BEGIN")
       source.close()
 

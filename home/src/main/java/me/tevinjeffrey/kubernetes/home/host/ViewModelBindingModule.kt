@@ -7,7 +7,8 @@ import me.tevinjeffrey.kubernetes.base.di.ViewModelKey
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
-import me.tevinjeffrey.kubernetes.home.settings.SettingsViewModel
+import me.tevinjeffrey.kubernetes.home.settings.CertViewModel
+import me.tevinjeffrey.kubernetes.home.settings.EndpointViewModel
 
 @Module
 abstract class ViewModelBindingModule {
@@ -17,6 +18,11 @@ abstract class ViewModelBindingModule {
 
   @Binds
   @IntoMap
-  @ViewModelKey(SettingsViewModel::class)
-  abstract fun settingsViewModel(viewModel: SettingsViewModel): ViewModel
+  @ViewModelKey(CertViewModel::class)
+  abstract fun certViewModel(viewModel: CertViewModel): ViewModel
+
+  @Binds
+  @IntoMap
+  @ViewModelKey(EndpointViewModel::class)
+  abstract fun endpointViewModel(viewModel: EndpointViewModel): ViewModel
 }

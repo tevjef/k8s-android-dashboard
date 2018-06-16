@@ -1,4 +1,4 @@
-package me.tevinjeffrey.kubernetes.home.settings
+package me.tevinjeffrey.kubernetes.home.settings.adapter
 
 import com.xwray.groupie.kotlinandroidextensions.Item
 import com.xwray.groupie.kotlinandroidextensions.ViewHolder

@@ -201,7 +201,7 @@ object Deps {
   val lottie = "com.airbnb.android:lottie:2.5.0"
   val materialDialogs = "com.afollestad.material-dialogs:core:0.9.6.0"
   val pageIndicator = "com.github.chahinem:pageindicator:0.2.5"
-  val patrons = "com.prolificinteractive:patrons:0.1.0"
+  val patrons = "com.github.prolificinteractive:patrons:introduce_change_listeners-SNAPSHOT"
   val picasso = "com.squareup.picasso:picasso:2.6.0-SNAPSHOT"
   val rxjava = "io.reactivex.rxjava2:rxjava:$rxjavaVersion"
   val rxandroid = "io.reactivex.rxjava2:rxandroid:$rxandroidVersion"
