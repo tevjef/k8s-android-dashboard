@@ -1,59 +1,51 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="me.tevinjeffrey.kubernetes.base"
-    >
+    package="me.tevinjeffrey.kubernetes.base">
 
-  <uses-permission android:name="android.permission.BLUETOOTH"/>
-  <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
-  <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-  <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
 
-  <application
-      android:networkSecurityConfig="@xml/network_security_config"
-      tools:targetApi="n"
-      tools:ignore="GoogleAppIndexingWarning"
-      >
+    <application
+        android:networkSecurityConfig="@xml/network_security_config"
+        tools:ignore="GoogleAppIndexingWarning"
+        tools:targetApi="n">
 
-    <provider
-      android:name="androidx.lifecycle.ProcessLifecycleOwnerInitializer"
-      android:authorities="${applicationId}.lifecycle-trojan"
-      android:exported="false"
-      android:multiprocess="true"
-      tools:replace="android:authorities" />
+        <provider
+            android:name="androidx.lifecycle.ProcessLifecycleOwnerInitializer"
+            android:authorities="${applicationId}.lifecycle-trojan"
+            android:exported="false"
+            android:multiprocess="true"
+            tools:replace="android:authorities" />
 
-    <activity
-      android:name="com.squareup.leakcanary.internal.DisplayLeakActivity"
-      android:enabled="false"
-      android:icon="@drawable/leak_canary_icon"
-      android:label="@string/leak_canary_display_activity_label"
-      android:process=":leakcanary"
-      android:taskAffinity="com.squareup.leakcanary"
-      android:theme="@style/leak_canary_LeakCanary.Base"
-      tools:replace="android:taskAffinity" />
-    <activity
-      android:name="com.squareup.leakcanary.internal.RequestStoragePermissionActivity"
-      android:enabled="false"
-      android:excludeFromRecents="true"
-      android:icon="@drawable/leak_canary_icon"
-      android:label="@string/leak_canary_storage_permission_activity_label"
-      android:process=":leakcanary"
-      android:taskAffinity="com.squareup.leakcanary"
-      android:theme="@style/leak_canary_Theme.Transparent"
-      tools:replace="android:taskAffinity" />
+        <activity
+            android:name="com.squareup.leakcanary.internal.DisplayLeakActivity"
+            android:enabled="false"
+            android:icon="@drawable/leak_canary_icon"
+            android:label="@string/leak_canary_display_activity_label"
+            android:process=":leakcanary"
+            android:taskAffinity="com.squareup.leakcanary"
+            android:theme="@style/leak_canary_LeakCanary.Base"
+            tools:replace="android:taskAffinity" />
+        <activity
+            android:name="com.squareup.leakcanary.internal.RequestStoragePermissionActivity"
+            android:enabled="false"
+            android:excludeFromRecents="true"
+            android:icon="@drawable/leak_canary_icon"
+            android:label="@string/leak_canary_storage_permission_activity_label"
+            android:process=":leakcanary"
+            android:taskAffinity="com.squareup.leakcanary"
+            android:theme="@style/leak_canary_Theme.Transparent"
+            tools:replace="android:taskAffinity" />
 
-    <provider
-      android:name="com.readystatesoftware.chuck.internal.data.ChuckContentProvider"
-      android:authorities="me.tevinjeffrey.kubernetes.base.test.chuck.provider"
-      android:exported="false"
-      tools:replace="android:authorities" />
-
-      <!--https://issuetracker.google.com/u/1/issues/109962764-->
-  <!--  <provider
-      android:name="androidx.work.impl.WorkManagerInitializer"
-      android:authorities="${applicationId}.workmanager-init"
-      android:exported="false"
-      android:multiprocess="true"
-      tools:replace="android:authorities"/>
--->
-  </application>
+        <!--https://issuetracker.google.com/u/1/issues/109962764-->
+        <!--  <provider
+            android:name="androidx.work.impl.WorkManagerInitializer"
+            android:authorities="${applicationId}.workmanager-init"
+            android:exported="false"
+            android:multiprocess="true"
+            tools:replace="android:authorities"/>
+      -->
+    </application>
 </manifest>

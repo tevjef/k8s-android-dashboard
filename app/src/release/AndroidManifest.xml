@@ -5,13 +5,6 @@
 
   <application>
     <provider
-      android:name="com.crashlytics.android.CrashlyticsInitProvider"
-      android:authorities="${applicationId}.crashlyticsinitprovider"
-      android:exported="false"
-      android:initOrder="100"
-      tools:replace="android:authorities" />
-
-    <provider
       android:name="androidx.lifecycle.ProcessLifecycleOwnerInitializer"
       android:authorities="${applicationId}.lifecycle-trojan"
       android:exported="false"

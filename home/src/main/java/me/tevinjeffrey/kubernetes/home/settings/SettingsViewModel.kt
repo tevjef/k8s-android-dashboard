@@ -1,12 +1,10 @@
 package me.tevinjeffrey.kubernetes.home.settings
 
-import android.webkit.URLUtil
 import androidx.lifecycle.MutableLiveData
 import com.gojuno.koptional.None
 import com.gojuno.koptional.Optional
 import com.gojuno.koptional.Some
 import io.fabric8.kubernetes.api.model.RootPaths
-import io.fabric8.kubernetes.client.ConfigBuilder
 import io.fabric8.kubernetes.client.DefaultKubernetesClient
 import io.fabric8.kubernetes.client.KubernetesClientException
 import io.reactivex.Maybe
@@ -16,8 +14,7 @@ import io.reactivex.functions.BiFunction
 import io.reactivex.rxkotlin.plusAssign
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
-import me.tevinjeffrey.kubernetes.api.ssl.HttpClientUtils
-import me.tevinjeffrey.kubernetes.base.di.Kubernetes
+import me.tevinjeffrey.kubernetes.api.KubernetesClientProvider
 import me.tevinjeffrey.kubernetes.base.extensions.maybe
 import me.tevinjeffrey.kubernetes.base.support.BaseViewModel
 import me.tevinjeffrey.kubernetes.base.support.SingleLiveEvent
@@ -25,16 +22,14 @@ import me.tevinjeffrey.kubernetes.db.Cluster
 import me.tevinjeffrey.kubernetes.db.Config
 import me.tevinjeffrey.kubernetes.db.ConfigDatabase
 import me.tevinjeffrey.kubernetes.home.settings.adapter.SpinnerDisplay
-import okhttp3.OkHttpClient
 import timber.log.Timber
 import javax.inject.Inject
 import javax.net.ssl.SSLHandshakeException
 
 class SettingsViewModel @Inject constructor(
-    configDatabase: ConfigDatabase,
-    @Kubernetes private val okHttpClient: OkHttpClient,
-    private val clientUtils: HttpClientUtils
-) : BaseViewModel() {
+    private val kubernetesClientProvider: KubernetesClientProvider,
+    configDatabase: ConfigDatabase
+    ) : BaseViewModel() {
 
   val spinnerLiveData: MutableLiveData<SpinnerDisplay> = MutableLiveData()
   val error: SingleLiveEvent<Throwable> = SingleLiveEvent()
@@ -66,31 +61,8 @@ class SettingsViewModel @Inject constructor(
             Maybe.error<Optional<RootPaths>>(KubernetesClientException("Kubernetes Master URL is empty."))
           } else {
             maybe {
-              val configBuilder = ConfigBuilder()
-                  .withMasterUrl(config.server)
-                  .withOauthToken(config.token)
-                  .withUsername(config.username)
-                  .withPassword(config.password)
-                  .withTrustCerts(config.insecureSkipTLSVerify)
-                  .withClientCertData(config.clientCertificate)
-                  .withClientKeyData(config.clientKey)
-                  .withCaCertData(config.certificateAuthority)
-                  .withKeyStorePassphrase("")
-                  .withClientKeyAlgo("RSA")
-
-              if (config.shouldProxy && !config.proxyUrl.isNullOrEmpty()) {
-                if (URLUtil.isHttpsUrl(config.proxyUrl)) {
-                  configBuilder.withHttpsProxy(config.proxyUrl)
-                } else {
-                  configBuilder.withHttpProxy(config.proxyUrl)
-                }
-              }
-
-              val c = configBuilder.build()
-              val httpClient = clientUtils.createHttpClient(okHttpClient.newBuilder(), c)
-
-              val paths = DefaultKubernetesClient(httpClient, c)
-                  .inAnyNamespace().rootPaths()
+              val client: DefaultKubernetesClient = kubernetesClientProvider.get(config)
+              val paths = client.inAnyNamespace().rootPaths()
 
               if (paths != null && paths.paths.isNotEmpty()) {
                 Some(paths)
@@ -99,7 +71,6 @@ class SettingsViewModel @Inject constructor(
               }
             }
           }
-
         }
         .flatMap {
           maybe {
@@ -142,7 +113,7 @@ class SettingsViewModel @Inject constructor(
       true to currentCluster
     }
         .subscribeBy(
-            onSuccess = {  },
+            onSuccess = { },
             onError = { error.value = it }
         )
   }
@@ -153,7 +124,7 @@ class SettingsViewModel @Inject constructor(
       configDao.getCurrentCluster()
     }
         .subscribeBy(
-            onSuccess = {  },
+            onSuccess = { },
             onError = { error.value = it }
         )
   }
@@ -167,7 +138,7 @@ class SettingsViewModel @Inject constructor(
       configDao.getCurrentCluster()
     }
         .subscribeBy(
-            onSuccess = {  },
+            onSuccess = { },
             onError = { error.value = it }
         )
   }
@@ -175,7 +146,7 @@ class SettingsViewModel @Inject constructor(
   fun updateConfigName(name: String) {
     disposable += maybe { configDao.updateName(name) }
         .subscribeBy(
-            onSuccess = {  },
+            onSuccess = { },
             onError = { error.value = it }
         )
   }
@@ -188,7 +159,7 @@ class SettingsViewModel @Inject constructor(
       configDao.getCurrentCluster()
     }
         .subscribeBy(
-            onSuccess = {  },
+            onSuccess = { },
             onError = { error.value = it }
         )
   }

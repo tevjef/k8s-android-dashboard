@@ -59,7 +59,7 @@ class SettingsFragment : BaseFragment() {
   }
 
   private fun setupToolbar() {
-    toolbar.inflateMenu(R.menu.menu_settings)
+    toolbar.inflateMenu(R.menu.settings)
     toolbar.setOnMenuItemClickListener {
       when (it.itemId) {
         R.id.action_add -> {
@@ -142,19 +142,31 @@ class SettingsFragment : BaseFragment() {
     // Setup adapter section
     val masterUrlItem = EndpointItem(getString(R.string.master_url))
 
+    val insecureConnectionsToggle = InsecureToggleItem(getString(R.string.allow_insecure), {
+      certViewModel.updateAllowInsecure(it)
+    })
+    insecureConnectionsToggle.body = getString(R.string.body_allow_insecure)
+
     val proxyToggle = ProxyToggleItem(getString(R.string.proxy_connections), {
       endpointViewModel.updateShouldProxy(it)
     })
+    proxyToggle.body = getString(R.string.body_proxy_url)
+
 
     val endpointSection = Section()
     endpointSection.setHeader(HeaderItem(getString(R.string.endpoint)))
-    endpointSection.addAll(listOf(masterUrlItem, proxyToggle))
+    endpointSection.addAll(listOf(masterUrlItem, insecureConnectionsToggle, proxyToggle))
     adapter.add(endpointSection)
 
     // Observe config changes in the database/
     observe(endpointViewModel.masterUrlResult) {
       masterUrlItem.body = it ?: getString(R.string.body_master_url)
       masterUrlItem.notifyChanged()
+    }
+
+    observe(certViewModel.allowInsecureResult) {
+      insecureConnectionsToggle.isChecked = (it ?: true)
+      insecureConnectionsToggle.notifyChanged()
     }
 
     observe(endpointViewModel.proxyUrlResult) {
@@ -214,16 +226,10 @@ class SettingsFragment : BaseFragment() {
         CLUSTER_CA_REQUEST_CODE
     )
 
-    val insecureConnectionsToggle = InsecureToggleItem(getString(R.string.allow_insecure), {
-      certViewModel.updateAllowInsecure(it)
-    })
-    insecureConnectionsToggle.body = getString(R.string.body_allow_insecure)
-
     val certSection = Section()
     certSection.setHeader(HeaderItem(getString(R.string.certificates)))
     certSection.addAll(
         listOf(
-            insecureConnectionsToggle,
             clientCertItem,
             clientKeyItem,
             clusterCACertItem,
@@ -268,8 +274,6 @@ class SettingsFragment : BaseFragment() {
       clientKeyItem.notifyChanged()
       clusterCACertItem.isEnabled = !(it ?: true)
       clusterCACertItem.notifyChanged()
-      insecureConnectionsToggle.isChecked = (it ?: true)
-      insecureConnectionsToggle.notifyChanged()
     }
 
     observe(certViewModel.error) {
@@ -292,6 +296,7 @@ class SettingsFragment : BaseFragment() {
   private fun setupAuth(itemClicks: LiveData<Item>) {
     // Setup adapter section.
     val tokenItem = TokenItem(getString(R.string.bearer_token), BEARER_TOKEN_REQUEST_CODE)
+    tokenItem.body = getString(R.string.body_bearer_token)
     val authSection = Section()
     authSection.setHeader(HeaderItem(getString(R.string.auth)))
     authSection.addAll(listOf(tokenItem))

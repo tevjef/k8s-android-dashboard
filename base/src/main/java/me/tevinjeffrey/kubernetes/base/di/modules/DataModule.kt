@@ -9,26 +9,17 @@ import me.tevinjeffrey.kubernetes.api.RxSchedulers
 import me.tevinjeffrey.kubernetes.api.typeadapters.ZonedDateTimeConverter
 import me.tevinjeffrey.kubernetes.base.di.PerApp
 import me.tevinjeffrey.kubernetes.db.ConfigDatabase
-import okhttp3.OkHttpClient
 import org.threeten.bp.ZonedDateTime
-import java.util.concurrent.TimeUnit
 
 @Module
 class DataModule(val app: Application) {
+
   @Provides
   @PerApp
   fun provideGson(): Gson = GsonBuilder()
       .setLenient()
       .registerTypeAdapter(ZonedDateTime::class.java, ZonedDateTimeConverter())
       .create()
-
-  @Provides
-  @PerApp
-  fun provideOkHttpClient() = OkHttpClient.Builder()
-      .connectTimeout(TIMEOUT, TimeUnit.SECONDS)
-      .readTimeout(TIMEOUT, TimeUnit.SECONDS)
-      .writeTimeout(TIMEOUT, TimeUnit.SECONDS)
-      .build()!!
 
   @Provides
   @PerApp

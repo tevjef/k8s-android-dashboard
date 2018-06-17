@@ -67,8 +67,10 @@ class CertViewModel @Inject constructor(
   fun updateAllowInsecure(b: Boolean) {
     disposable += maybe {
       configDatabase.configDao().updateInsecureVerify(b)
-    }
-        .subscribe({ Timber.d("Updated insecureSkipTLSVerify=$b") }, { error.value = it })
+    }.subscribeBy(
+        onSuccess = { },
+        onError = { Timber.e(it) }
+    )
   }
 
   private fun findFile(uri: Uri): Maybe<CertInfo> {

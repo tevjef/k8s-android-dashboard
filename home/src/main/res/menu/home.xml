@@ -1,0 +1,37 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="me.tevinjeffrey.kubernetes.home.host.HostActivity">
+
+    <item
+        android:id="@+id/toWorkloads"
+        android:icon="@drawable/ic_developer"
+        android:orderInCategory="100"
+        android:title="@string/workloads"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/toServices"
+        android:icon="@drawable/ic_services"
+        android:orderInCategory="100"
+        android:title="@string/services"/>
+
+    <item
+        android:id="@+id/toConfiguration"
+        android:icon="@drawable/ic_fingerprint"
+        android:orderInCategory="100"
+        android:title="@string/configuration"
+        />
+    <item
+        android:id="@+id/toStorage"
+        android:icon="@drawable/ic_storage"
+        android:orderInCategory="100"
+        android:title="@string/storage"
+        />
+    <item
+        android:id="@+id/toClusters"
+        android:icon="@drawable/ic_clusters"
+        android:orderInCategory="100"
+        android:title="@string/clusters"
+        />
+</menu>

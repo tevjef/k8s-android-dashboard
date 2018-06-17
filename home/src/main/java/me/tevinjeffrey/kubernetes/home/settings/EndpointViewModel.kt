@@ -16,6 +16,7 @@ class EndpointViewModel @Inject constructor(configDatabase: ConfigDatabase) : Ba
   val masterUrlResult: MutableLiveData<String> = MutableLiveData()
   val proxyUrlResult: MutableLiveData<String> = MutableLiveData()
   val shouldProxyResult: MutableLiveData<Boolean> = MutableLiveData()
+  val allowInsecureResult: MutableLiveData<Boolean> = MutableLiveData()
 
   val error: SingleLiveEvent<Throwable> = SingleLiveEvent()
 
@@ -25,6 +26,7 @@ class EndpointViewModel @Inject constructor(configDatabase: ConfigDatabase) : Ba
     configDatabase.observeClusterValue(shouldProxyResult, { it.shouldProxy })
     configDatabase.observeClusterValue(proxyUrlResult, { it.proxyUrl })
     configDatabase.observeClusterValue(masterUrlResult, { it.server })
+    configDatabase.observeClusterValue(allowInsecureResult, { it.insecureSkipTLSVerify })
     configDatabase.observeClusterValue(
         { toggleMasterSecureUrl(!(it ?: false)) },
         { it.insecureSkipTLSVerify }

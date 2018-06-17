@@ -4,15 +4,13 @@
     package="me.tevinjeffrey.kubernetes.home"
     >
 
-  <application>
+  <application tools:ignore="GoogleAppIndexingWarning">
     <provider
       android:name="androidx.lifecycle.ProcessLifecycleOwnerInitializer"
       android:authorities="${applicationId}.lifecycle-trojan"
       android:exported="false"
       android:multiprocess="true"
       tools:replace="android:authorities" />
-
-
     <activity
       android:name="com.squareup.leakcanary.internal.DisplayLeakActivity"
       android:enabled="false"
@@ -32,11 +30,6 @@
       android:taskAffinity="com.squareup.leakcanary"
       android:theme="@style/leak_canary_Theme.Transparent"
       tools:replace="android:taskAffinity" />
-    <provider
-      android:name="com.readystatesoftware.chuck.internal.data.ChuckContentProvider"
-      android:authorities="me.tevinjeffrey.kubernetes.base.test.chuck.provider"
-      android:exported="false"
-      tools:replace="android:authorities" />
       <!--https://issuetracker.google.com/u/1/issues/109962764-->
    <!-- <provider
       android:name="androidx.work.impl.WorkManagerInitializer"

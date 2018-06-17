@@ -13,6 +13,7 @@ import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjectionModule
 import dagger.android.support.AndroidSupportInjectionModule
+import me.tevinjeffrey.kubernetes.api.KubernetesClientProvider
 import me.tevinjeffrey.kubernetes.api.ssl.CertUtils
 import me.tevinjeffrey.kubernetes.base.support.FileOpener
 import me.tevinjeffrey.kubernetes.db.ConfigDatabase
@@ -34,8 +35,8 @@ interface KubernetesAppComponent {
   fun inputMethodService(): InputMethodManager
   fun fileOpener(): FileOpener
   fun certUtils(): CertUtils
-  @Kubernetes fun okhttpClient(): OkHttpClient
 
+  fun kubernetesClientProvider(): KubernetesClientProvider
   fun configDatabase(): ConfigDatabase
 
   @Component.Builder interface Builder {

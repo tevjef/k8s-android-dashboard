@@ -1,4 +1,4 @@
-package me.tevinjeffrey.kubernetes.home.dashboard
+package me.tevinjeffrey.kubernetes.home.workloads
 
 import android.os.Bundle
 import androidx.recyclerview.widget.SimpleItemAnimator
@@ -12,12 +12,11 @@ class WorkloadsFragment : BaseFragment() {
 
   private val adapter = GroupAdapter<ViewHolder>()
 
-  override fun layoutId() = R.layout.fragment_settings
+  override fun layoutId() = R.layout.fragment_workloads
 
   override fun onActivityCreated(savedInstanceState: Bundle?) {
     super.onActivityCreated(savedInstanceState)
     list.adapter = adapter
-    (list.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
-    toolbar.title = getString(R.string.settings)
+    toolbar.inflateMenu(R.menu.search_filter)
   }
 }

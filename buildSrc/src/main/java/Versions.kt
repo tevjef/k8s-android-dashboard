@@ -13,7 +13,6 @@ object Versions {
   const val archPagingVersion = "1.0.0"
   const val archWorkVersion = "1.0.0-alpha02"
   const val archRoomVersion = "1.1.0"
-  const val chuckVersion = "1.1.0"
   const val daggerVersion = "2.16"
   const val debugdrawerVersion = "0.8.0"
   const val glideVersion = "4.7.1"

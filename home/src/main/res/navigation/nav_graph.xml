@@ -1,13 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<navigation xmlns:app="http://schemas.android.com/apk/res-auto"
-  xmlns:android="http://schemas.android.com/apk/res/android"
-  app:startDestination="@id/settingsFragment">
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:startDestination="@id/toWorkloads">
 
-  <fragment
-    android:id="@+id/settingsFragment"
-    android:name="me.tevinjeffrey.kubernetes.home.settings.SettingsFragment"
-    android:label="CertFragment" >
-    <deepLink app:uri="k8s://kubernetesapp/settings"/>
-  </fragment>
+    <fragment
+        android:id="@+id/toWorkloads"
+        android:name="me.tevinjeffrey.kubernetes.home.workloads.WorkloadsFragment"
+        android:label="WorkloadsFragment">
+        <deepLink app:uri="k8s://kubernetesapp/workloads" />
+    </fragment>
+    <fragment
+        android:id="@+id/toServices"
+        android:name="me.tevinjeffrey.kubernetes.home.workloads.WorkloadsFragment"
+        android:label="WorkloadsFragment">
+        <deepLink app:uri="k8s://kubernetesapp/services" />
+    </fragment>
+    <fragment
+        android:id="@+id/toConfiguration"
+        android:name="me.tevinjeffrey.kubernetes.home.workloads.WorkloadsFragment"
+        android:label="WorkloadsFragment">
+        <deepLink app:uri="k8s://kubernetesapp/configuration" />
+    </fragment>
+    <fragment
+        android:id="@+id/toStorage"
+        android:name="me.tevinjeffrey.kubernetes.home.workloads.WorkloadsFragment"
+        android:label="WorkloadsFragment">
+        <deepLink app:uri="k8s://kubernetesapp/storage" />
+    </fragment>
+    <fragment
+        android:id="@+id/toClusters"
+        android:name="me.tevinjeffrey.kubernetes.home.settings.SettingsFragment"
+        android:label="WorkloadsFragment">
+        <deepLink app:uri="k8s://kubernetesapp/clusters" />
+    </fragment>
 
 </navigation>

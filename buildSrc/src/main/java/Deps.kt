@@ -3,12 +3,10 @@ import Versions.archPagingVersion
 import Versions.archRoomVersion
 import Versions.archVersion
 import Versions.archWorkVersion
-import Versions.chuckVersion
 import Versions.daggerVersion
 import Versions.debugdrawerVersion
 import Versions.glideVersion
 import Versions.gsonVersion
-import Versions.instabugVersion
 import Versions.junitVersion
 import Versions.kotlinVersion
 import Versions.leakCanaryVersion
@@ -78,7 +76,7 @@ object Deps {
   // optional - RxJava support, currently in alpha
   val archPagingRxJava = "android.arch.paging:rxjava2:1.0.0-alpha1"
   // alternatively - without Android dependencies for testing
-  val archPagingTesting =  "android.arch.paging:common:$archPagingVersion"
+  val archPagingTesting = "android.arch.paging:common:$archPagingVersion"
 
   // Worker
   val archWorkRuntime = "android.arch.work:work-runtime-ktx:$archWorkVersion"
@@ -145,7 +143,6 @@ object Deps {
   val daggerAndroidSupport = "com.google.dagger:dagger-android-support:$daggerVersion"
   val daggerAndroidCompiler = "com.google.dagger:dagger-android-processor:$daggerVersion"
 
-
   // Glide
   val glide = "com.github.bumptech.glide:glide:$glideVersion"
   val glideCompiler = "com.github.bumptech.glide:compiler:$glideVersion"
@@ -187,28 +184,18 @@ object Deps {
 
   // Libraries
   val bottomNavigation = "com.aurelhubert:ahbottomnavigation:2.1.0"
-  val crashlytics = "com.crashlytics.sdk.android:crashlytics:2.9.2@aar"
   val conceal = "com.facebook.conceal:conceal:2.0.2@aar"
   val timber = "com.jakewharton.timber:timber:4.6.1"
-  val chuck = "com.readystatesoftware.chuck:library:$chuckVersion"
-  val chuckNoOp = "com.readystatesoftware.chuck:library-no-op:$chuckVersion"
-  val facebookSdk = "com.facebook.android:facebook-android-sdk:4.30.0"
-  val hockey = "net.hockeyapp.android:HockeySDK:5.1.0"
   val inject = "javax.inject:javax.inject:1"
-  val instabug = "com.instabug.library:instabug:$instabugVersion"
-  val instabugInterceptor = "com.instabug.library:instabug-with-okhttp-interceptor:$instabugVersion"
   val leakCanary = "com.squareup.leakcanary:leakcanary-android:$leakCanaryVersion"
   val leakCanaryNoOp = "com.squareup.leakcanary:leakcanary-android-no-op:$leakCanaryVersion"
   val lottie = "com.airbnb.android:lottie:2.5.0"
   val materialDialogs = "com.afollestad.material-dialogs:core:0.9.6.0"
-  val pageIndicator = "com.github.chahinem:pageindicator:0.2.5"
   val patrons = "com.github.prolificinteractive:patrons:introduce_change_listeners-SNAPSHOT"
-  val picasso = "com.squareup.picasso:picasso:2.6.0-SNAPSHOT"
   val rxjava = "io.reactivex.rxjava2:rxjava:$rxjavaVersion"
   val rxkotlin = "io.reactivex.rxjava2:rxkotlin:2.2.0"
   val rxandroid = "io.reactivex.rxjava2:rxandroid:$rxandroidVersion"
   val koptional = "com.gojuno.koptional:koptional-rxjava2-extensions:1.5.0"
-  val shimmer = "io.supercharge:shimmerlayout:1.1.0"
   val threetenabp = "com.jakewharton.threetenabp:threetenabp:1.1.0"
   val groupie = "com.xwray:groupie:2.0.3"
   val groupieKotlin = "com.xwray:groupie-kotlin-android-extensions:2.0.3"
@@ -266,18 +253,11 @@ object Deps {
       materialDesignComponents
   )
 
-  val firebase = listOf(
-      firebaseConfig,
-      firebaseCore,
-      firebasePerf,
-      firebaseMessaging)
-
   val testLibs = listOf(jUnit, mockito, hamcrest, kluent, kluentAndroid, roboelectric)
 
   val androidTestLibs = listOf(testRules, testRunner, espressoCore)
 
   val featureProjects = listOf(
-      ":auth",
       ":home"
   )
 }

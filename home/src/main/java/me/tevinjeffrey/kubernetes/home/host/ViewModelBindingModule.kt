@@ -11,6 +11,7 @@ import me.tevinjeffrey.kubernetes.home.settings.AuthViewModel
 import me.tevinjeffrey.kubernetes.home.settings.CertViewModel
 import me.tevinjeffrey.kubernetes.home.settings.EndpointViewModel
 import me.tevinjeffrey.kubernetes.home.settings.SettingsViewModel
+import me.tevinjeffrey.kubernetes.home.workloads.WorkloadsViewModel
 
 @Module
 abstract class ViewModelBindingModule {
@@ -37,4 +38,10 @@ abstract class ViewModelBindingModule {
   @IntoMap
   @ViewModelKey(AuthViewModel::class)
   abstract fun authViewModel(viewModel: AuthViewModel): ViewModel
+
+
+  @Binds
+  @IntoMap
+  @ViewModelKey(AuthViewModel::class)
+  abstract fun workloadsViewModel(viewModel: WorkloadsViewModel): WorkloadsViewModel
 }

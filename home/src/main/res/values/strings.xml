@@ -33,4 +33,11 @@
     <string name="body_master_url">The address of the kubernetes cluster.</string>
     <string name="body_proxy_url">The proxy to route connections through.</string>
     <string name="reset">Reset</string>
+    <string name="storage">Storage</string>
+    <string name="configuration">Configuration</string>
+    <string name="services">Services</string>
+    <string name="workloads">Workloads</string>
+    <string name="clusters">Clusters</string>
+    <string name="filter">Filter</string>
+    <string name="search">Search</string>
 </resources>

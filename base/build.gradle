@@ -36,28 +36,15 @@ dependencies {
 
   api Deps.materialDialogs
 
-  alphaImplementation Deps.hockey
-  betaImplementation Deps.hockey
-  alphaApi(Deps.crashlytics) { transitive = true }
-  betaApi(Deps.crashlytics) { transitive = true }
-  releaseApi(Deps.crashlytics) { transitive = true }
-
   debugApi Deps.multidex
-  debugApi Deps.instabug
-  debugApi Deps.chuck
   debugApi Deps.leakCanary
 
   alphaApi Deps.multidex
-  alphaApi Deps.instabug
-  alphaApi Deps.chuck
   alphaApi Deps.leakCanaryNoOp
 
   betaApi Deps.multidex
-  betaApi Deps.instabug
-  betaApi Deps.chuck
   betaApi Deps.leakCanaryNoOp
 
-  releaseApi Deps.chuckNoOp
   releaseApi Deps.leakCanaryNoOp
 
   debugApi Deps.debugdrawer
