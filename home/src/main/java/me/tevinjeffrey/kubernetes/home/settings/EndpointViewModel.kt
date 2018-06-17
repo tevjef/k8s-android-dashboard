@@ -3,94 +3,100 @@ package me.tevinjeffrey.kubernetes.home.settings
 import android.net.Uri
 import android.webkit.URLUtil
 import androidx.lifecycle.MutableLiveData
-import com.prolificinteractive.patrons.BooleanPreference
-import com.prolificinteractive.patrons.OnPreferenceChangeListener
-import com.prolificinteractive.patrons.StringPreference
-import me.tevinjeffrey.kubernetes.base.di.AllowInsecure
-import me.tevinjeffrey.kubernetes.base.di.MasterUrl
-import me.tevinjeffrey.kubernetes.base.di.ProxyUrl
-import me.tevinjeffrey.kubernetes.base.di.ShouldProxy
+import io.reactivex.rxkotlin.plusAssign
+import io.reactivex.rxkotlin.subscribeBy
+import me.tevinjeffrey.kubernetes.base.extensions.maybe
 import me.tevinjeffrey.kubernetes.base.support.BaseViewModel
 import me.tevinjeffrey.kubernetes.base.support.SingleLiveEvent
+import me.tevinjeffrey.kubernetes.db.ConfigDatabase
+import me.tevinjeffrey.kubernetes.db.observeClusterValue
 import javax.inject.Inject
 
-class EndpointViewModel @Inject constructor(
-    @MasterUrl private val masterUrl: StringPreference,
-    @ProxyUrl private val proxyUrl: StringPreference,
-    @ShouldProxy private val shouldProxy: BooleanPreference,
-    @AllowInsecure private val allowInsecure: BooleanPreference
-) : BaseViewModel() {
-
+class EndpointViewModel @Inject constructor(configDatabase: ConfigDatabase) : BaseViewModel() {
   val masterUrlResult: MutableLiveData<String> = MutableLiveData()
   val proxyUrlResult: MutableLiveData<String> = MutableLiveData()
   val shouldProxyResult: MutableLiveData<Boolean> = MutableLiveData()
 
   val error: SingleLiveEvent<Throwable> = SingleLiveEvent()
 
-  init {
-    masterUrl.registerChangeListener(OnPreferenceChangeListener {
-      masterUrlResult.value = it
-    })
-    proxyUrl.registerChangeListener(OnPreferenceChangeListener {
-      proxyUrlResult.value = it
-    })
-    shouldProxy.registerChangeListener(OnPreferenceChangeListener {
-      shouldProxyResult.value = it
-    })
-    allowInsecure.registerChangeListener(OnPreferenceChangeListener {
-      toggleMasterSecureUrl(!(it ?: false))
-    })
+  private val configDao = configDatabase.configDao()
 
-    masterUrlResult.value = masterUrl.get()
-    proxyUrlResult.value = proxyUrl.get()
-    shouldProxyResult.value = shouldProxy.get()
-    toggleMasterSecureUrl(!(allowInsecure.get()))
+  init {
+    configDatabase.observeClusterValue(shouldProxyResult, { it.shouldProxy })
+    configDatabase.observeClusterValue(proxyUrlResult, { it.proxyUrl })
+    configDatabase.observeClusterValue(masterUrlResult, { it.server })
+    configDatabase.observeClusterValue(
+        { toggleMasterSecureUrl(!(it ?: false)) },
+        { it.insecureSkipTLSVerify }
+    )
   }
 
   fun updateMasterUrl(text: String) {
     val isHttp = URLUtil.isHttpUrl(text)
     val isHttps = URLUtil.isHttpsUrl(text)
 
+    var allowInsecure = false
     if (isHttps) {
-      allowInsecure.set(false)
+      allowInsecure = false
     }
 
     if (isHttp) {
-      allowInsecure.set(true)
+      allowInsecure = true
     }
 
+    disposable +=
+        maybe { configDao.updateInsecureVerify(allowInsecure) }
+            .subscribeBy(
+                onSuccess = { },
+                onError = { error.value = it }
+            )
     if (isHttp || isHttps) {
-      masterUrl.set(text)
+      disposable += maybe { configDao.updateMasterUrl(text) }
+          .subscribeBy(
+              onSuccess = { },
+              onError = { error.value = it }
+          )
     } else {
-      error.value = IllegalStateException("Invalid master url ")
+      error.value = IllegalStateException("Invalid URL")
     }
   }
 
   fun updateProxyUrl(text: String) {
     val isValidUrl = URLUtil.isValidUrl(text)
-    val isHttps = URLUtil.isHttpsUrl(text)
     when {
-      isHttps -> error.value = IllegalStateException("https proxy not supported")
       isValidUrl -> {
-        proxyUrl.set(text)
+        maybe { configDao.updateProxyUrl(text) }
+            .subscribeBy(
+                onSuccess = { },
+                onError = { error.value = it }
+            )
       }
       else -> error.value = IllegalStateException("Invalid proxy url ")
     }
   }
 
-  fun updateShouldProxy(b: Boolean) {
-    shouldProxy.set(b)
+  fun updateShouldProxy(shouldProxy: Boolean) {
+    disposable += maybe { configDao.updateShouldProxy(shouldProxy) }
+        .subscribeBy(
+            onSuccess = { },
+            onError = { error.value = it }
+        )
   }
 
   private fun toggleMasterSecureUrl(isSecure: Boolean) {
-    val url = masterUrl.get()
+    val url = masterUrlResult.value
     url ?: return
 
     val uri = Uri.parse(url)
     val newUrl = uri.buildUpon()
         .scheme(if (isSecure) "https" else "http")
         .build()
-    masterUrl.set(newUrl.toString())
+
+    disposable += maybe { configDao.updateMasterUrl(newUrl.toString()) }
+        .subscribeBy(
+            onSuccess = { },
+            onError = { error.value = it }
+        )
   }
 }
 

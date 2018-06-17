@@ -17,7 +17,6 @@ data class EndpointItem constructor(
     viewHolder.containerView.isEnabled = isEnabled
     viewHolder.title.isEnabled = isEnabled
     viewHolder.body.isEnabled = isEnabled
-
     if (body.isEmpty()) {
       viewHolder.body.text = viewHolder.containerView.context.getString(R.string.not_set)
     } else {

@@ -5,9 +5,9 @@ import com.xwray.groupie.kotlinandroidextensions.ViewHolder
 import kotlinx.android.synthetic.main.item_settings.*
 import me.tevinjeffrey.kubernetes.home.R
 
-data class CertItem constructor(
+data class TokenItem constructor(
     private val title: String,
-    val requestCode: Int) : Item(requestCode.toLong()) {
+    val requestCode: Int) : Item(title.hashCode().toLong()) {
 
   var body: String = ""
   var isEnabled: Boolean = true
@@ -19,7 +19,11 @@ data class CertItem constructor(
     viewHolder.title.isEnabled = isEnabled
     viewHolder.body.isEnabled = isEnabled
 
+    if (body.isEmpty()) {
+      viewHolder.body.text = viewHolder.containerView.context.getString(R.string.not_set)
+    } else {
+      viewHolder.body.text = body
+    }
     viewHolder.title.text = title
-    viewHolder.body.text = body
   }
 }

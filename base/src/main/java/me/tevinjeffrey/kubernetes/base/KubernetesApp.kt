@@ -9,6 +9,7 @@ import me.tevinjeffrey.kubernetes.base.di.modules.ApiModule
 import me.tevinjeffrey.kubernetes.base.di.modules.KubernetesAppModule
 import me.tevinjeffrey.kubernetes.base.di.modules.PrefModule
 import dagger.android.*
+import me.tevinjeffrey.kubernetes.base.di.modules.DataModule
 import javax.inject.Inject
 
 class KubernetesApp : BaseKubernetesApp(), HasActivityInjector, HasBroadcastReceiverInjector, HasServiceInjector {
@@ -27,6 +28,7 @@ class KubernetesApp : BaseKubernetesApp(), HasActivityInjector, HasBroadcastRece
 
     component = DaggerKubernetesAppComponent.builder()
         .apiModule(ApiModule(this))
+        .dataModule(DataModule(this))
         .appModule(KubernetesAppModule(this))
         .prefModule(PrefModule(this))
         .application(this)

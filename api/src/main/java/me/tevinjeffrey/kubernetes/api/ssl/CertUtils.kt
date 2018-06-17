@@ -10,16 +10,18 @@ import java.io.IOException
 import java.io.InputStream
 import java.security.KeyFactory
 import java.security.KeyStore
+import java.security.PrivateKey
 import java.security.cert.Certificate
 import java.security.cert.CertificateFactory
 import java.security.cert.X509Certificate
 import java.security.spec.InvalidKeySpecException
+import java.security.spec.KeySpec
 import java.security.spec.PKCS8EncodedKeySpec
 import javax.inject.Inject
 
 class CertUtils @Inject constructor(val context: Context) {
 
-  private fun getInputStreamFromDataOrFile(data: String?, file: String?): InputStream {
+  fun getInputStreamFromDataOrFile(data: String?, file: String?): InputStream {
     if (data == null && file == null) {
       throw IllegalStateException("Neither data nor file was provided")
     }
@@ -64,19 +66,11 @@ class CertUtils @Inject constructor(val context: Context) {
     return trustStore
   }
 
+
   fun createKeyStore(certInputStream: InputStream?, keyInputStream: InputStream?, clientKeyAlgo: String, clientKeyPassphrase: CharArray?, storePassphrase: CharArray): KeyStore {
-    val certFactory = CertificateFactory.getInstance("X.509")
-    val cert = certFactory.generateCertificate(certInputStream) as X509Certificate
+    val cert = getX509Certificates(certInputStream)[0]
 
-    val keyBytes = decodePem(keyInputStream)
-
-    val keyFactory = KeyFactory.getInstance(clientKeyAlgo)
-    val privateKey = try {
-      keyFactory.generatePrivate(PKCS8EncodedKeySpec(keyBytes))
-    } catch (e: InvalidKeySpecException) {
-      val keySpec = PKCS1Util.decodePKCS1(keyBytes)
-      keyFactory.generatePrivate(keySpec)
-    }
+    val privateKey = getPrivateKey(keyInputStream, clientKeyAlgo)
 
     val keyStore = KeyStore.getInstance(KeyStore.getDefaultType())
     keyStore.load(null, storePassphrase)
@@ -85,6 +79,25 @@ class CertUtils @Inject constructor(val context: Context) {
     keyStore.setKeyEntry(alias, privateKey, clientKeyPassphrase, arrayOf<Certificate>(cert))
 
     return keyStore
+  }
+
+  fun getPrivateKey(keyInputStream: InputStream?, clientKeyAlgo: String = "RSA"): PrivateKey? {
+    val keyBytes = decodePem(keyInputStream)
+    val keyFactory = KeyFactory.getInstance(clientKeyAlgo)
+    var keySpec: KeySpec
+    return try {
+      keySpec = PKCS8EncodedKeySpec(keyBytes)
+      keyFactory.generatePrivate(keySpec)
+    } catch (e: InvalidKeySpecException) {
+      keySpec = PKCS1Util.decodePKCS1(keyBytes)
+      keyFactory.generatePrivate(keySpec)
+    }
+  }
+
+  fun getX509Certificates(inputStream: InputStream?): List<X509Certificate> {
+    val certFactory = CertificateFactory.getInstance("X.509")
+    val cert = certFactory.generateCertificate(inputStream)
+    return listOf(cert as X509Certificate)
   }
 
   fun createKeyStore(clientCertData: String?, clientCertFile: String?, clientKeyData: String?,

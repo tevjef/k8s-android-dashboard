@@ -71,10 +71,18 @@ class HttpClientUtils @Inject constructor(private val sslUtils: SSLUtils) {
       clientBuilder.addInterceptor(Interceptor { chain ->
         val request = chain.request()
         if (isNotNullOrEmpty(config.username) && isNotNullOrEmpty(config.password)) {
-          val authReq = chain.request().newBuilder().addHeader("Authorization", Credentials.basic(config.username, config.password)).build()
+          val authReq = chain
+              .request()
+              .newBuilder()
+              .addHeader("Authorization", Credentials.basic(config.username, config.password))
+              .build()
           return@Interceptor chain.proceed(authReq)
         } else if (isNotNullOrEmpty(config.oauthToken)) {
-          val authReq = chain.request().newBuilder().addHeader("Authorization", "Bearer " + config.oauthToken).build()
+          val authReq = chain
+              .request()
+              .newBuilder()
+              .addHeader("Authorization", "Bearer " + config.oauthToken)
+              .build()
           return@Interceptor chain.proceed(authReq)
         }
         chain.proceed(request)
@@ -104,16 +112,19 @@ class HttpClientUtils @Inject constructor(private val sslUtils: SSLUtils) {
       }
 
       // Only check proxy if it's a full URL with protocol
-      if (config.masterUrl.toLowerCase().startsWith(Config.HTTP_PROTOCOL_PREFIX) || config.masterUrl.startsWith(Config.HTTPS_PROTOCOL_PREFIX)) {
+      if (config.masterUrl.toLowerCase().startsWith(Config.HTTP_PROTOCOL_PREFIX) ||
+          config.masterUrl.startsWith(Config.HTTPS_PROTOCOL_PREFIX)) {
         try {
           val proxyUrl = getProxyUrl(config)
           if (proxyUrl != null) {
             clientBuilder.proxy(Proxy(Proxy.Type.HTTP, InetSocketAddress(proxyUrl.host, proxyUrl.port)))
-
             if (config.proxyUsername != null) {
-              clientBuilder.proxyAuthenticator { route, response ->
+              clientBuilder.proxyAuthenticator { _, response ->
                 val credential = Credentials.basic(config.proxyUsername, config.proxyPassword)
-                response.request().newBuilder().header("Proxy-Authorization", credential).build()
+                response
+                    .request()
+                    .newBuilder()
+                    .header("Proxy-Authorization", credential).build()
               }
             }
           }
@@ -126,12 +137,15 @@ class HttpClientUtils @Inject constructor(private val sslUtils: SSLUtils) {
 
       if (config.userAgent != null && !config.userAgent.isEmpty()) {
         clientBuilder.addNetworkInterceptor { chain ->
-          val agent = chain.request().newBuilder().header("User-Agent", config.userAgent).build()
+          val agent = chain
+              .request()
+              .newBuilder()
+              .header("User-Agent", config.userAgent).build()
           chain.proceed(agent)
         }
       }
 
-      if (config.tlsVersions != null && config.tlsVersions.size > 0) {
+      if (config.tlsVersions != null && config.tlsVersions.isNotEmpty()) {
         val spec = ConnectionSpec.Builder(ConnectionSpec.MODERN_TLS)
             .tlsVersions(*config.tlsVersions)
             .build()

@@ -1,17 +1,14 @@
 package me.tevinjeffrey.kubernetes.home.settings.adapter
 
-import androidx.core.view.isGone
 import com.xwray.groupie.kotlinandroidextensions.Item
 import com.xwray.groupie.kotlinandroidextensions.ViewHolder
-import kotlinx.android.synthetic.main.item_header.*
+import kotlinx.android.synthetic.main.item_settings.*
 import me.tevinjeffrey.kubernetes.home.R
 
-class HeaderItem constructor(private val title: String) : Item() {
+class SpaceItem : Item() {
 
-  override fun getLayout() = R.layout.item_header
+  override fun getLayout() = R.layout.item_space
 
   override fun bind(viewHolder: ViewHolder, position: Int) {
-    viewHolder.divider.isGone = true
-    viewHolder.header.text = title
   }
 }

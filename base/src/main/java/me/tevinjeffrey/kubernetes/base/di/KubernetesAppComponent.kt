@@ -13,7 +13,10 @@ import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjectionModule
 import dagger.android.support.AndroidSupportInjectionModule
+import me.tevinjeffrey.kubernetes.api.ssl.CertUtils
 import me.tevinjeffrey.kubernetes.base.support.FileOpener
+import me.tevinjeffrey.kubernetes.db.ConfigDatabase
+import okhttp3.OkHttpClient
 
 @PerApp
 @Component(modules = [
@@ -30,14 +33,10 @@ interface KubernetesAppComponent {
 
   fun inputMethodService(): InputMethodManager
   fun fileOpener(): FileOpener
+  fun certUtils(): CertUtils
+  @Kubernetes fun okhttpClient(): OkHttpClient
 
-  @ClientCert fun clientCert(): StringPreference
-  @ClientKey fun clientKey(): StringPreference
-  @ClusterCACert fun clusterCACert(): StringPreference
-  @AllowInsecure fun insecureCOnnections(): BooleanPreference
-  @MasterUrl fun masterUrl():  StringPreference
-  @ShouldProxy fun shouldProxy():  BooleanPreference
-  @ProxyUrl fun proxyUrl(): StringPreference
+  fun configDatabase(): ConfigDatabase
 
   @Component.Builder interface Builder {
     @BindsInstance fun application(app: KubernetesApp): Builder

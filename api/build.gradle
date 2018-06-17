@@ -14,6 +14,11 @@ dependencies {
   Deps.api.each { api it }
   Deps.rx.each { api it }
 
+  api Deps.archRoomRuntime
+  api Deps.archRoomRxJava
+  kapt Deps.archRoomProcessor
+  testImplementation Deps.archRoomTesting
+
   api Deps.patrons
   api Deps.timber
   api Deps.kotlinStdlib
@@ -25,4 +30,6 @@ dependencies {
 
   api 'io.fabric8:kubernetes-client:3.2.0'
   api 'io.fabric8:kubernetes-model:2.1.1'
+  api 'com.auth0.android:jwtdecode:1.1.1'
+
 }

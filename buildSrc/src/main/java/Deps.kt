@@ -96,6 +96,7 @@ object Deps {
       archNavigationFragment,
       archNavigation,
       archRoomRuntime,
+      archRoomRxJava,
       archPagingRuntime,
       archPagingRxJava
 // https://issuetracker.google.com/u/1/issues/109962764
@@ -204,7 +205,9 @@ object Deps {
   val patrons = "com.github.prolificinteractive:patrons:introduce_change_listeners-SNAPSHOT"
   val picasso = "com.squareup.picasso:picasso:2.6.0-SNAPSHOT"
   val rxjava = "io.reactivex.rxjava2:rxjava:$rxjavaVersion"
+  val rxkotlin = "io.reactivex.rxjava2:rxkotlin:2.2.0"
   val rxandroid = "io.reactivex.rxjava2:rxandroid:$rxandroidVersion"
+  val koptional = "com.gojuno.koptional:koptional-rxjava2-extensions:1.5.0"
   val shimmer = "io.supercharge:shimmerlayout:1.1.0"
   val threetenabp = "com.jakewharton.threetenabp:threetenabp:1.1.0"
   val groupie = "com.xwray:groupie:2.0.3"
@@ -223,7 +226,7 @@ object Deps {
   val roboelectric = "org.robolectric:robolectric:4.0-alpha-2"
 
   // Dependency Group
-  val rx = listOf(rxjava, rxandroid)
+  val rx = listOf(rxjava, rxandroid, rxkotlin, koptional)
 
   val rxBindings = listOf(
       rxbinding,

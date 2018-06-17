@@ -1,10 +1,10 @@
 package me.tevinjeffrey.kubernetes.base.extensions
 
-import io.reactivex.Observable
-import io.reactivex.ObservableTransformer
-import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.*
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.BiFunction
+import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
 
 
@@ -65,5 +65,59 @@ class Observables private constructor() {
 inline fun <T1, T2, R> Observable<T1>.withLatestFrom(observable: Observable<T2>, crossinline combiner: (T1, T2) -> R): Observable<R> =
     withLatestFrom(observable, BiFunction { t1, t2 -> combiner.invoke(t1, t2) })
 
-// Yeah, if you've read my blog, I was sceptical about operators, but if you'll use them carefully they'll help keep code readable.
-inline operator fun CompositeDisposable.plusAssign(disposable: Disposable) = this.add(disposable).let { Unit }
+fun Any.toObservable() = Observable.just(this)
+fun Any.toFlowable() = Flowable.just(this)
+fun Any.toMaybe() = Maybe.just(this)
+fun Any.toSingle() = Single.just(this)
+
+inline fun <reified T> single(crossinline block: () -> T): Single<T> {
+  return Single.create<T> {
+    try {
+      it.onSuccess(block())
+    } catch (e: Exception) {
+      it.onError(e)
+    }
+  }
+      .subscribeOn(Schedulers.io())
+      .observeOn(AndroidSchedulers.mainThread())
+}
+
+inline fun <reified T> maybe(crossinline block: () -> T): Maybe<T> {
+  return Maybe.create<T> {
+    try {
+      it.onSuccess(block())
+    } catch (e: Exception) {
+      it.onError(e)
+    }
+    it.onComplete()
+  }
+      .subscribeOn(Schedulers.io())
+      .observeOn(AndroidSchedulers.mainThread())
+}
+
+inline fun <reified T> observable(crossinline block: () -> T): Observable<T> {
+  return Observable.create<T> {
+    try {
+      it.onNext(block())
+    } catch (e: Exception) {
+      it.onError(e)
+    }
+    it.onComplete()
+  }
+      .subscribeOn(Schedulers.io())
+      .observeOn(AndroidSchedulers.mainThread())
+}
+
+
+inline fun <reified T> flowable(crossinline block: () -> T): Flowable<T> {
+  return Flowable.create<T>({
+    try {
+      it.onNext(block())
+    } catch (e: Exception) {
+      it.onError(e)
+    }
+    it.onComplete()
+  }, BackpressureStrategy.BUFFER)
+      .subscribeOn(Schedulers.io())
+      .observeOn(AndroidSchedulers.mainThread())
+}

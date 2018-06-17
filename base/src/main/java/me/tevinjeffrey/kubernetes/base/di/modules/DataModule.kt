@@ -1,17 +1,20 @@
 package me.tevinjeffrey.kubernetes.base.di.modules
 
+import android.app.Application
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import dagger.Module
+import dagger.Provides
 import me.tevinjeffrey.kubernetes.api.RxSchedulers
 import me.tevinjeffrey.kubernetes.api.typeadapters.ZonedDateTimeConverter
 import me.tevinjeffrey.kubernetes.base.di.PerApp
-import dagger.Module
-import dagger.Provides
+import me.tevinjeffrey.kubernetes.db.ConfigDatabase
 import okhttp3.OkHttpClient
 import org.threeten.bp.ZonedDateTime
 import java.util.concurrent.TimeUnit
 
-@Module class DataModule {
+@Module
+class DataModule(val app: Application) {
   @Provides
   @PerApp
   fun provideGson(): Gson = GsonBuilder()
@@ -26,6 +29,10 @@ import java.util.concurrent.TimeUnit
       .readTimeout(TIMEOUT, TimeUnit.SECONDS)
       .writeTimeout(TIMEOUT, TimeUnit.SECONDS)
       .build()!!
+
+  @Provides
+  @PerApp
+  fun provideConfigDatabase(): ConfigDatabase = ConfigDatabase.getInstance(app.applicationContext)
 
   @Provides
   @PerApp
