@@ -5,7 +5,7 @@ object Versions {
   const val compileSdkVersion = 28
   const val targetSdkVersion = 28
   const val gradleVersion = "3.2.0-alpha18"
-  const val kotlinVersion = "1.2.50"
+  const val kotlinVersion = "1.2.51"
 
   // Libraries Version
   const val archVersion = "1.1.1"

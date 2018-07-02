@@ -9,6 +9,7 @@ import me.tevinjeffrey.kubernetes.base.BuildConfig
 import me.tevinjeffrey.kubernetes.base.di.PerApp
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import java.util.concurrent.TimeUnit
 
 @Module
 class ApiModule(private val app: Application) {
@@ -26,11 +27,14 @@ class ApiModule(private val app: Application) {
   fun provideOkHttpClient(): OkHttpClient {
     val clientBuilder = OkHttpClient.Builder()
 
-    if (BuildConfig.DEBUG) {
-      val httpLoggingInterceptor = HttpLoggingInterceptor()
-      httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
-      clientBuilder.addInterceptor(httpLoggingInterceptor)
-    }
-    return clientBuilder.build()
+//    if (BuildConfig.DEBUG) {
+//      val httpLoggingInterceptor = HttpLoggingInterceptor()
+//      httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
+//      clientBuilder.addInterceptor(httpLoggingInterceptor)
+//    }
+    return clientBuilder
+        .readTimeout(30, TimeUnit.SECONDS)
+        .writeTimeout(30, TimeUnit.SECONDS)
+        .build()
   }
 }

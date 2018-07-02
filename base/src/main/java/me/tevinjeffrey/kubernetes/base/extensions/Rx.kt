@@ -75,7 +75,7 @@ inline fun <reified T> single(crossinline block: () -> T): Single<T> {
     try {
       it.onSuccess(block())
     } catch (e: Exception) {
-      it.onError(e)
+      it.tryOnError(e)
     }
   }
       .subscribeOn(Schedulers.io())
@@ -87,7 +87,7 @@ inline fun <reified T> maybe(crossinline block: () -> T): Maybe<T> {
     try {
       it.onSuccess(block())
     } catch (e: Exception) {
-      it.onError(e)
+      it.tryOnError(e)
     }
     it.onComplete()
   }
@@ -100,7 +100,8 @@ inline fun <reified T> observable(crossinline block: () -> T): Observable<T> {
     try {
       it.onNext(block())
     } catch (e: Exception) {
-      it.onError(e)
+      it.tryOnError(e)
+      return@create
     }
     it.onComplete()
   }

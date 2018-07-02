@@ -2,7 +2,6 @@ package me.tevinjeffrey.kubernetes.db
 
 import java.util.concurrent.Executors
 
-
 private val IO_EXECUTOR = Executors.newSingleThreadExecutor()
 
 /**

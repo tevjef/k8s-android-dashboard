@@ -1,46 +1,14 @@
 package me.tevinjeffrey.kubernetes.db
 
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Transaction
 import io.reactivex.Flowable
 
 @Dao
-abstract class ConfigDao {
-  @Insert(onConflict = OnConflictStrategy.REPLACE)
-  abstract fun setCurrentCluster(config: Config)
-
-  @Query("SELECT * FROM config INNER JOIN cluster ON current_cluster_id = cluster_id")
-  abstract fun watchCurrentCluster(): Flowable<Cluster>
-
-  @Query("SELECT * FROM config INNER JOIN cluster ON current_cluster_id = cluster_id")
-  abstract fun getCurrentCluster(): Cluster
-
+abstract class ConfigDao : ClusterConfigDao, WorkloadConfigDao {
 
   fun getDistinctCluster(): Flowable<Cluster> = watchCurrentCluster()
       .distinctUntilChanged()
-
-  @Query("SELECT * FROM cluster")
-  abstract fun watchClusters(): Flowable<List<Cluster>>
-
-  @Query("SELECT * FROM cluster")
-  abstract fun allClusters(): List<Cluster>
-
-  @Insert
-  abstract fun addCluster(cluster: Cluster)
-
-  @Delete
-  abstract fun deleteCluster(cluster: Cluster)
-
-  @Query("SELECT * FROM cluster ORDER BY cluster_id DESC LIMIT 1")
-  abstract fun lastCluster(): Cluster
-
-  @Update(onConflict = OnConflictStrategy.REPLACE)
-  abstract fun updateCluster(cluster: Cluster)
-
-  @Transaction
-  open fun prepopulate(config: Config, cluster: Cluster) {
-    addCluster(cluster)
-    setCurrentCluster(config)
-  }
 
   fun updateMasterUrl(masterUrl: String?) = updateCluster {
     it.copy(server = masterUrl)
@@ -92,4 +60,11 @@ abstract class ConfigDao {
     updateCluster(newCluster)
     return newCluster
   }
+
+  @Transaction
+  open fun prepopulate(config: Config, cluster: Cluster) {
+    addCluster(cluster)
+    setCurrentCluster(config)
+  }
+
 }

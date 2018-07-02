@@ -32,7 +32,7 @@ object Deps {
   val customtabs = "com.android.support:customtabs:$supportLibraryVersion"
   val constraintLayout = "com.android.support.constraint:constraint-layout:1.1.0-beta5"
   val multidex = "com.android.support:multidex:1.0.3"
-  val materialDesignComponents = "com.google.android.material:material:1.0.0-alpha1"
+  val materialDesignComponents = "com.google.android.material:material:1.0.0-alpha3"
 
   // Play Services
   // https://developers.google.com/android/guides/setup
@@ -119,12 +119,13 @@ object Deps {
 
   // Api
   val retrofit = "com.squareup.retrofit2:retrofit:$retrofitVersion"
-  val converterGson = "com.squareup.retrofit2:converter-gson:$retrofitVersion"
+  val converterMoshi = "com.squareup.retrofit2:converter-moshi:$retrofitVersion"
   val adapterRxjava = "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
   val okhttp = "com.squareup.okhttp3:okhttp:$okhttpVersion"
   val loggingInterceptor = "com.squareup.okhttp3:logging-interceptor:$okhttpVersion"
   val okio = "com.squareup.okio:okio:1.14.1"
-  val gson = "com.google.code.gson:gson:$gsonVersion"
+  val moshi = "com.squareup.moshi:moshi:1.6.0"
+  val moshiGen = "com.squareup.moshi:moshi-kotlin-codegen:1.6.0"
 
   // Store
   val storeKotlin = "com.nytimes.android:store-kotlin3:$storeVersion"
@@ -191,7 +192,7 @@ object Deps {
   val leakCanaryNoOp = "com.squareup.leakcanary:leakcanary-android-no-op:$leakCanaryVersion"
   val lottie = "com.airbnb.android:lottie:2.5.0"
   val materialDialogs = "com.afollestad.material-dialogs:core:0.9.6.0"
-  val patrons = "com.github.prolificinteractive:patrons:introduce_change_listeners-SNAPSHOT"
+  val patrons = "com.github.prolificinteractive:patrons:0.2.3"
   val rxjava = "io.reactivex.rxjava2:rxjava:$rxjavaVersion"
   val rxkotlin = "io.reactivex.rxjava2:rxkotlin:2.2.0"
   val rxandroid = "io.reactivex.rxjava2:rxandroid:$rxandroidVersion"
@@ -225,12 +226,12 @@ object Deps {
 
   val api = listOf(
       retrofit,
-      converterGson,
+      converterMoshi,
       adapterRxjava,
       okhttp,
       loggingInterceptor,
       okio,
-      gson
+      moshi
   )
 
   val store = listOf(

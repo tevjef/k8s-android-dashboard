@@ -1,0 +1,4 @@
+<resources>
+  <item name="workload_type" type="id"/>
+  <item name="namespace" type="id"/>
+</resources>

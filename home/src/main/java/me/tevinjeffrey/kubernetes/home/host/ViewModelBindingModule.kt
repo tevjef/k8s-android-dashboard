@@ -42,6 +42,7 @@ abstract class ViewModelBindingModule {
 
   @Binds
   @IntoMap
-  @ViewModelKey(AuthViewModel::class)
-  abstract fun workloadsViewModel(viewModel: WorkloadsViewModel): WorkloadsViewModel
+  @ViewModelKey(WorkloadsViewModel::class)
+  abstract fun workloadsViewModel(viewModel: WorkloadsViewModel): ViewModel
+
 }

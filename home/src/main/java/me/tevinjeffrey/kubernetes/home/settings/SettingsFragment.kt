@@ -7,24 +7,34 @@ import android.text.InputType
 import android.view.View
 import android.widget.AdapterView
 import androidx.annotation.StringRes
-import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.SimpleItemAnimator
 import androidx.transition.TransitionManager
 import com.afollestad.materialdialogs.MaterialDialog
-import com.google.android.material.snackbar.Snackbar
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Section
 import com.xwray.groupie.ViewHolder
 import com.xwray.groupie.kotlinandroidextensions.Item
-import kotlinx.android.synthetic.main.fragment_settings.*
+import kotlinx.android.synthetic.main.fragment_settings.fab
+import kotlinx.android.synthetic.main.fragment_settings.list
+import kotlinx.android.synthetic.main.fragment_settings.spinner
+import kotlinx.android.synthetic.main.fragment_settings.swipeRefreshLayout
+import kotlinx.android.synthetic.main.fragment_settings.toolbar
 import me.tevinjeffrey.kubernetes.base.extensions.clicksWithThrottle
 import me.tevinjeffrey.kubernetes.base.extensions.observe
 import me.tevinjeffrey.kubernetes.base.support.BaseFragment
+import me.tevinjeffrey.kubernetes.base.support.BaseFragment.SnackbarType.NEGATIVE
+import me.tevinjeffrey.kubernetes.base.support.BaseFragment.SnackbarType.POSITIVE
 import me.tevinjeffrey.kubernetes.home.R
-import me.tevinjeffrey.kubernetes.home.settings.SettingsFragment.SnackbarType.*
-import me.tevinjeffrey.kubernetes.home.settings.adapter.*
+import me.tevinjeffrey.kubernetes.home.settings.adapter.CertItem
+import me.tevinjeffrey.kubernetes.home.settings.adapter.EndpointItem
+import me.tevinjeffrey.kubernetes.home.settings.adapter.HeaderItem
+import me.tevinjeffrey.kubernetes.home.settings.adapter.InsecureToggleItem
+import me.tevinjeffrey.kubernetes.home.settings.adapter.ProxyToggleItem
+import me.tevinjeffrey.kubernetes.home.settings.adapter.SpaceItem
+import me.tevinjeffrey.kubernetes.home.settings.adapter.SpinnerAdapter
+import me.tevinjeffrey.kubernetes.home.settings.adapter.TokenItem
 
 class SettingsFragment : BaseFragment() {
 
@@ -41,8 +51,8 @@ class SettingsFragment : BaseFragment() {
     super.onActivityCreated(savedInstanceState)
     swipeRefreshLayout.isEnabled = false
     swipeRefreshLayout.setColorSchemeResources(
-        R.color.colorPrimary,
-        R.color.grey_900
+        me.tevinjeffrey.kubernetes.base.R.color.colorPrimary,
+        me.tevinjeffrey.kubernetes.base.R.color.grey_900
     )
 
     (list.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
@@ -142,14 +152,16 @@ class SettingsFragment : BaseFragment() {
     // Setup adapter section
     val masterUrlItem = EndpointItem(getString(R.string.master_url))
 
-    val insecureConnectionsToggle = InsecureToggleItem(getString(R.string.allow_insecure), {
+    val insecureConnectionsToggle = InsecureToggleItem(getString(R.string.allow_insecure)) {
       certViewModel.updateAllowInsecure(it)
-    })
+    }
+
     insecureConnectionsToggle.body = getString(R.string.body_allow_insecure)
 
-    val proxyToggle = ProxyToggleItem(getString(R.string.proxy_connections), {
+    val proxyToggle = ProxyToggleItem(getString(R.string.proxy_connections)) {
       endpointViewModel.updateShouldProxy(it)
-    })
+    }
+
     proxyToggle.body = getString(R.string.body_proxy_url)
 
 
@@ -354,17 +366,6 @@ class SettingsFragment : BaseFragment() {
     swipeRefreshLayout.isRefreshing = isLoading
   }
 
-  private fun showSnackbar(text: String, type: SnackbarType = NEUTRAL) {
-    val snackbar = Snackbar.make(view!!, text, Snackbar.LENGTH_LONG)
-    val color = when (type) {
-      POSITIVE -> R.color.green_700
-      NEGATIVE -> R.color.red_700
-      NEUTRAL -> R.color.grey_900
-    }
-    snackbar.view.setBackgroundColor(ResourcesCompat.getColor(resources, color, resources.newTheme()))
-    snackbar.show()
-  }
-
   private fun makeInputDialog(
       @StringRes title: Int,
       @StringRes hint: Int,
@@ -380,19 +381,5 @@ class SettingsFragment : BaseFragment() {
           callback(input.toString())
         }
         .show()
-  }
-
-
-  enum class SnackbarType {
-    POSITIVE,
-    NEGATIVE,
-    NEUTRAL
-  }
-
-  companion object {
-    const val CLIENT_CERT_REQUEST_CODE = 42
-    const val CLIENT_KEY_REQUEST_CODE = 43
-    const val CLUSTER_CA_REQUEST_CODE = 44
-    const val BEARER_TOKEN_REQUEST_CODE = 45
   }
 }

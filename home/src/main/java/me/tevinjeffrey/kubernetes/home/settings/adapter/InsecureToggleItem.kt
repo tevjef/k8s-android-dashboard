@@ -12,7 +12,7 @@ class InsecureToggleItem constructor(
 ) : Item() {
 
   var body: String = ""
-  var isChecked  = true
+  var isChecked  = false
 
   override fun getLayout() = R.layout.item_settings_toggle
 

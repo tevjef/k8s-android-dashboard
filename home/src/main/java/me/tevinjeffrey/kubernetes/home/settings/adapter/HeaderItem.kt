@@ -6,7 +6,7 @@ import com.xwray.groupie.kotlinandroidextensions.ViewHolder
 import kotlinx.android.synthetic.main.item_header.*
 import me.tevinjeffrey.kubernetes.home.R
 
-class HeaderItem constructor(private val title: String) : Item() {
+class HeaderItem constructor(private val title: String) : Item(title.hashCode().toLong()) {
 
   override fun getLayout() = R.layout.item_header
 

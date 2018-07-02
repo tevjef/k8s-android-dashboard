@@ -1,18 +1,19 @@
 package me.tevinjeffrey.kubernetes.db
 
 import android.content.Context
-import androidx.lifecycle.MutableLiveData
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.rxkotlin.subscribeBy
-import io.reactivex.schedulers.Schedulers
 import me.tevinjeffrey.kubernetes.api.R
-import timber.log.Timber
 
-@Database(entities = [Config::class, Cluster::class], version = 1)
+@Database(entities = [
+  Config::class,
+  Cluster::class,
+  WorkloadConfig::class
+], version = 2)
+@TypeConverters(Converters::class)
 abstract class ConfigDatabase : RoomDatabase() {
   abstract fun configDao(): ConfigDao
 

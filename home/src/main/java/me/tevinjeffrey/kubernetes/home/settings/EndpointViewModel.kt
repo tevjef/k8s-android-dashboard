@@ -23,10 +23,10 @@ class EndpointViewModel @Inject constructor(configDatabase: ConfigDatabase) : Ba
   private val configDao = configDatabase.configDao()
 
   init {
-    configDatabase.observeClusterValue(shouldProxyResult, { it.shouldProxy })
-    configDatabase.observeClusterValue(proxyUrlResult, { it.proxyUrl })
-    configDatabase.observeClusterValue(masterUrlResult, { it.server })
-    configDatabase.observeClusterValue(allowInsecureResult, { it.insecureSkipTLSVerify })
+    configDatabase.observeClusterValue(shouldProxyResult) { it.shouldProxy }
+    configDatabase.observeClusterValue(proxyUrlResult) { it.proxyUrl }
+    configDatabase.observeClusterValue(masterUrlResult) { it.server }
+    configDatabase.observeClusterValue(allowInsecureResult) { it.insecureSkipTLSVerify }
     configDatabase.observeClusterValue(
         { toggleMasterSecureUrl(!(it ?: false)) },
         { it.insecureSkipTLSVerify }

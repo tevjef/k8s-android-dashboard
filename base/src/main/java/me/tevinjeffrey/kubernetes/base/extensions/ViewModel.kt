@@ -3,7 +3,6 @@ package me.tevinjeffrey.kubernetes.base.extensions
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.*
-import me.tevinjeffrey.kubernetes.base.support.ViewLifecycleFragment
 
 inline fun <reified T : ViewModel> FragmentActivity.getViewModel(viewModelFactory: ViewModelProvider.Factory): T {
   return ViewModelProviders.of(this, viewModelFactory)[T::class.java]
@@ -29,12 +28,18 @@ inline fun <reified T : ViewModel> Fragment.withViewModel(viewModelFactory: View
   return vm
 }
 
-fun <T : Any, L : LiveData<T>> LifecycleOwner.observe(liveData: L, body: (T?) -> Unit) {
+fun <T : Any, L : LiveData<T>> LifecycleOwner.observe(liveData: L, removeObservers: Boolean = false, body: (T?) -> Unit) {
+  if (removeObservers) {
+    liveData.removeObservers(this)
+  }
   liveData.observe(this, Observer(body))
 }
 
-fun <T : Any, L : LiveData<T>> ViewLifecycleFragment.observe(liveData: L, body: (T?) -> Unit) {
-  liveData.observe(viewLifecycleOwner!!, Observer(body))
+fun <T : Any, L : LiveData<T>> Fragment.observe(liveData: L, removeObservers: Boolean = false, body: (T?) -> Unit) {
+  if (removeObservers) {
+    liveData.removeObservers(viewLifecycleOwner)
+  }
+  liveData.observe(viewLifecycleOwner, Observer(body))
 }
 
 fun <T> LiveData<T>.getDistinct(): LiveData<T> {

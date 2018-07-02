@@ -24,6 +24,9 @@ dependencies {
   api Deps.kotlinStdlib
   api Deps.threetenabp
 
+  api Deps.moshi
+  kapt Deps.moshiGen
+
   api Deps.dagger
   kapt Deps.daggerCompiler
   kapt Deps.daggerAndroidCompiler

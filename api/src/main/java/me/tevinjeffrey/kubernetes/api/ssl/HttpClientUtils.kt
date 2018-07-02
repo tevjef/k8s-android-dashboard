@@ -88,9 +88,9 @@ class HttpClientUtils @Inject constructor(private val sslUtils: SSLUtils) {
         chain.proceed(request)
       }).addInterceptor(ImpersonatorInterceptor(config))
 
-      val loggingInterceptor = HttpLoggingInterceptor()
-      loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
-      clientBuilder.addNetworkInterceptor(loggingInterceptor)
+//      val loggingInterceptor = HttpLoggingInterceptor()
+//      loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
+//      clientBuilder.addNetworkInterceptor(loggingInterceptor)
 
       if (config.connectionTimeout > 0) {
         clientBuilder.connectTimeout(config.connectionTimeout.toLong(), TimeUnit.MILLISECONDS)

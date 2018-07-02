@@ -1,6 +1,9 @@
 package me.tevinjeffrey.kubernetes.db
 
-import androidx.room.*
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.Index
+import androidx.room.PrimaryKey
 
 /**
  * Config is a tuple of references to a cluster (how do I communicate with a kubernetes cluster),

@@ -43,13 +43,11 @@ android {
     alpha {
       initWith debug
       applicationIdSuffix '.alpha'
-      manifestPlaceholders += [HOCKEYAPP_APP_ID: HOCKEYAPP_APP_ID_ALPHA]
     }
 
     beta {
       initWith debug
       applicationIdSuffix '.beta'
-      manifestPlaceholders += [HOCKEYAPP_APP_ID: HOCKEYAPP_APP_ID_BETA]
     }
 
     release {

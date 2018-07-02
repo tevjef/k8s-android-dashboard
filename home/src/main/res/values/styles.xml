@@ -1,0 +1,6 @@
+<resources>
+  <style name="ChipTextAppearance" parent="TextAppearance.MaterialComponents.Chip">
+    <item name="android:textColor">@color/chip_text_color</item>
+  </style>
+
+</resources>
